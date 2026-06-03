@@ -8,8 +8,6 @@ export default async function LoginPage() {
   const admin = await getAdmin();
   if (admin) redirect('/admin');
 
-  const devLogin = process.env.NEXT_PUBLIC_DEV_LOGIN === 'true';
-
   return (
     <main className="admin-login">
       <div className="login-card">
@@ -19,7 +17,7 @@ export default async function LoginPage() {
           <span>Admin</span>
           <span className="login-sub-line" />
         </div>
-        <LoginForm devLogin={devLogin} />
+        <LoginForm />
       </div>
     </main>
   );
