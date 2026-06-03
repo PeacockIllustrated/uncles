@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#13241D">
+<title>Uncle's — Panuozzo &amp; Sandwiches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================
+     UNCLE'S — CUSTOMER MOBILE MENU
+     Restrained Italian premium · subtle bespoke motion
+     ===================================================== */
+
+  :root {
+    --green-deep:  #0E1914;
+    --green-base:  #13241D;
+    --green-mid:   #1C2F26;
+    --gold:        #C7A06A;
+    --gold-bright: #D9B681;
+    --gold-soft:   #A88654;
+    --gold-faint:  rgba(199, 160, 106, 0.22);
+    --gold-line:   rgba(199, 160, 106, 0.45);
+    --cream:       #E8DDC7;
+    --cream-soft:  rgba(232, 221, 199, 0.78);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html, body {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    background: var(--green-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+  }
+
+  /* ===== AMBIENT BACKGROUND — drifts on scroll (motion #1) ===== */
+  body {
+    position: relative;
+    overflow-x: hidden;
+    background: var(--green-deep);
+  }
+
+  .ambient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at var(--bg-x1, 25%) var(--bg-y1, 18%),
+        rgba(45, 70, 56, 0.6) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 50% at var(--bg-x2, 78%) var(--bg-y2, 85%),
+        rgba(8, 16, 12, 0.7) 0%, transparent 55%),
+      linear-gradient(160deg, var(--green-base) 0%, var(--green-deep) 100%);
+    transition: background 0.6s linear;
+  }
+
+  /* Subtle paper grain */
+  .ambient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.63  0 0 0 0 0.42  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+
+  /* Vignette */
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 50%, rgba(8, 14, 11, 0.4) 100%);
+  }
+
+  /* ===== STAGE ===== */
+  .stage {
+    position: relative;
+    z-index: 2;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* ===== TOP MARKERS — editorial corner labels ===== */
+  .top-markers {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 24px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    opacity: 0.7;
+  }
+
+  /* ===== HEADER — page-load motion (motion #4) ===== */
+  .header {
+    text-align: center;
+    padding: 24px 24px 20px;
+  }
+
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 56px;
+    letter-spacing: 0.045em;
+    color: var(--gold);
+    line-height: 0.95;
+    text-shadow:
+      0 2px 0 rgba(168, 134, 84, 0.22),
+      0 4px 32px rgba(199, 160, 106, 0.18);
+    margin-bottom: 14px;
+
+    /* Settle in on load */
+    opacity: 0;
+    transform: translateY(8px);
+    animation: brandSettle 0.9s 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes brandSettle {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+
+    /* Draw in from centre after brand settles */
+    opacity: 0;
+    animation: subFade 0.5s 0.7s ease-out forwards;
+  }
+
+  @keyframes subFade {
+    to { opacity: 1; }
+  }
+
+  .sub-line {
+    height: 1px;
+    flex: 1;
+    max-width: 50px;
+    background: linear-gradient(90deg, transparent, var(--gold) 80%);
+
+    /* Draw outward from centre */
+    transform-origin: right center;
+    transform: scaleX(0);
+    animation: lineDrawL 0.6s 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  .sub-line.right {
+    background: linear-gradient(90deg, var(--gold) 20%, transparent);
+    transform-origin: left center;
+    animation-name: lineDrawR;
+  }
+
+  @keyframes lineDrawL {
+    to { transform: scaleX(1); }
+  }
+
+  @keyframes lineDrawR {
+    to { transform: scaleX(1); }
+  }
+
+  .sub-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .sub-diamond {
+    color: var(--gold);
+    font-size: 7px;
+    opacity: 0.9;
+  }
+
+  .tagline {
+    margin-top: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--cream-soft);
+    opacity: 0;
+    animation: subFade 0.5s 1.1s ease-out forwards;
+  }
+
+  /* ===== SECTION TITLE — rule draws in on view (motion #2) ===== */
+  .section-band {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 0 24px;
+    margin: 32px 0 4px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    max-width: 60px;
+    transform: scaleX(0);
+    transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .section-line.left {
+    transform-origin: right center;
+    background: linear-gradient(90deg, transparent, var(--gold-faint) 30%, var(--gold) 100%);
+  }
+
+  .section-line.right {
+    transform-origin: left center;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-faint) 70%, transparent);
+  }
+
+  .section-band.in-view .section-line {
+    transform: scaleX(1);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.5s 0.2s ease-out, transform 0.5s 0.2s ease-out;
+  }
+
+  .section-band.in-view .section-title {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-band-diamond {
+    color: var(--gold);
+    font-size: 8px;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.4s 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .section-band.in-view .section-band-diamond {
+    transform: rotate(45deg) scale(1);
+  }
+
+  .section-tagline {
+    text-align: center;
+    margin: 0 0 14px;
+    padding: 0 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--cream-soft);
+    opacity: 0;
+    transition: opacity 0.5s 0.5s ease-out;
+  }
+
+  .section-tagline.in-view {
+    opacity: 0.85;
+  }
+
+  /* ===== PANUOZZI ROWS — prices weigh in on scroll (motion #6) ===== */
+  .panuozzi {
+    padding: 0 24px;
+  }
+
+  .pan-row {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--gold-faint);
+    position: relative;
+  }
+
+  .pan-row:last-of-type {
+    border-bottom: none;
+  }
+
+  .pan-row::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 26px;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.5;
+  }
+
+  .pan-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .pan-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.005em;
+    color: var(--cream);
+    line-height: 1.4;
+    opacity: 0.9;
+    margin-bottom: 12px;
+  }
+
+  .pan-prices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pan-size {
+    border: 1px solid var(--gold-faint);
+    padding: 10px 12px;
+    text-align: center;
+    background: rgba(199, 160, 106, 0.03);
+
+    /* Price weighs in on scroll */
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .pan-row.in-view .pan-size {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pan-row.in-view .pan-size:nth-child(2) {
+    transition-delay: 80ms;
+  }
+
+  .pan-size-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+  }
+
+  .pan-size-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  /* ===== DOLCE — feature band ===== */
+  .dolce {
+    margin: 28px 24px 0;
+    border: 1px solid var(--gold);
+    padding: 18px 22px;
+    position: relative;
+    background:
+      linear-gradient(135deg,
+        rgba(199, 160, 106, 0.06) 0%,
+        rgba(199, 160, 106, 0.02) 60%,
+        transparent 100%);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .dolce.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dolce::before,
+  .dolce::after {
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--gold);
+    background: var(--green-base);
+    transform: translateY(-50%) rotate(45deg);
+    top: 50%;
+  }
+  .dolce::before { left: -5px; }
+  .dolce::after  { right: -5px; }
+
+  .dolce-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .dolce-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  /* Top divider before the flavour rows */
+  .dolce-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--gold-faint);
+    margin: 0 auto 12px;
+  }
+
+  /* Flavour row stack (Nutella / Pistachio) */
+  .dolce-options {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dolce-row {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .dolce-row + .dolce-row {
+    border-top: 1px solid var(--gold-faint);
+  }
+
+  .dolce-flavour {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .dolce-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.3;
+    opacity: 1;
+  }
+
+  .dolce-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* ===== LIST ROWS (Coffee, Drinks) ===== */
+  .list {
+    padding: 0 24px;
+  }
+
+  .list-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 14px 0;
+    gap: 16px;
+    border-bottom: 1px solid var(--gold-faint);
+    position: relative;
+
+    /* Stagger fade in */
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+
+  .list-row.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .list-row:last-child { border-bottom: none; }
+
+  .list-row::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .list-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+
+  .list-row.group .list-name {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .list-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* ===== EXTRAS — two-column grid ===== */
+  .extras {
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 18px;
+  }
+
+  .extras-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 9px 0;
+    gap: 8px;
+    border-bottom: 1px solid var(--gold-faint);
+    position: relative;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+
+  .extras-row.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .extras-row::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 3px;
+    height: 3px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* Mortadella spans full width */
+  .extras-row.span-full {
+    grid-column: 1 / -1;
+  }
+
+  .extras-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--cream);
+    letter-spacing: 0.01em;
+  }
+
+  .extras-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  /* ===== DESSERTS — feature pair ===== */
+  .desserts {
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dessert-card {
+    border: 1px solid var(--gold-faint);
+    padding: 14px 18px;
+    background: rgba(28, 47, 38, 0.5);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .dessert-card.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dessert-card:nth-child(2) {
+    transition-delay: 100ms;
+  }
+
+  .dessert-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+
+  .dessert-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .dessert-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 19px;
+    color: var(--gold);
+  }
+
+  .dessert-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    opacity: 1;
+    line-height: 1.45;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: 60px;
+    padding: 32px 24px 50px;
+    border-top: 1px solid var(--gold-faint);
+    text-align: center;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.045em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .footer-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 18px;
+  }
+
+  .footer-trio {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    opacity: 0.7;
+    line-height: 2;
+  }
+
+  .footer-diamond {
+    color: var(--gold);
+    font-size: 7px;
+    margin: 0 8px;
+    opacity: 0.7;
+  }
+
+  /* ===== REDUCED MOTION ===== */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    .brand, .sub, .tagline,
+    .section-line, .section-title, .section-band-diamond, .section-tagline,
+    .pan-size, .dolce, .list-row, .extras-row, .dessert-card {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .section-line { transform: scaleX(1) !important; }
+    .section-band-diamond { transform: rotate(45deg) !important; }
+  }
+
+  /* =========================================================
+     OVERRIDE — neutralise the old section-reveal / item-stagger
+     animations. Splash is the only entrance moment; menu sits
+     fully visible from the moment splash lifts.
+     ========================================================= */
+  .section-line {
+    transform: scaleX(1) !important;
+  }
+  .section-title,
+  .section-tagline,
+  .pan-size,
+  .dolce,
+  .list-row,
+  .extras-row,
+  .dessert-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .section-band-diamond {
+    transform: rotate(45deg) !important;
+  }
+
+  /* =========================================================
+     SPLASH SCREEN
+     A single hairline rule draws across, two diamonds appear,
+     UNCLE'S settles in below, sub-line draws beneath. Holds
+     for ~600ms then fades to reveal the menu. Dismissible by
+     tap or scroll.
+     ========================================================= */
+  .splash {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(28, 47, 38, 0.6) 0%, transparent 65%),
+      linear-gradient(160deg, var(--green-base) 0%, var(--green-deep) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 22px;
+    cursor: pointer;
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s 0.7s;
+  }
+
+  .splash::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.63  0 0 0 0 0.42  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .splash.lifting {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Splash content stack */
+  .splash-stack {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 0 24px;
+  }
+
+  /* Top hairline rule with two diamonds */
+  .splash-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .splash-rule-line {
+    flex: 1;
+    height: 1px;
+    max-width: 100px;
+    background: var(--gold);
+    transform: scaleX(0);
+    animation: splashRuleDraw 0.7s 0.15s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  .splash-rule-line.left  { transform-origin: right center; }
+  .splash-rule-line.right { transform-origin: left center; }
+
+  @keyframes splashRuleDraw {
+    to { transform: scaleX(1); }
+  }
+
+  .splash-rule-diamond {
+    color: var(--gold);
+    font-size: 11px;
+    line-height: 1;
+    transform: rotate(45deg) scale(0);
+    animation: splashDiamondPop 0.4s 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    display: inline-block;
+  }
+
+  @keyframes splashDiamondPop {
+    to { transform: rotate(45deg) scale(1); }
+  }
+
+  /* UNCLE'S brand mark */
+  .splash-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 64px;
+    letter-spacing: 0.045em;
+    color: var(--gold);
+    line-height: 0.95;
+    text-shadow:
+      0 2px 0 rgba(168, 134, 84, 0.22),
+      0 4px 32px rgba(199, 160, 106, 0.18);
+    opacity: 0;
+    transform: translateY(8px);
+    animation: splashBrandSettle 0.8s 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes splashBrandSettle {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Sub-line beneath the brand */
+  .splash-sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    animation: splashSubFade 0.5s 1.7s ease-out forwards;
+  }
+
+  @keyframes splashSubFade {
+    to { opacity: 1; }
+  }
+
+  .splash-sub-line {
+    height: 1px;
+    width: 32px;
+    background: var(--gold);
+    transform: scaleX(0);
+    animation: splashRuleDraw 0.5s 1.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  .splash-sub-line.left  { transform-origin: right center; }
+  .splash-sub-line.right { transform-origin: left center; }
+
+  .splash-sub-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .splash-sub-diamond {
+    color: var(--gold);
+    font-size: 6px;
+    opacity: 0.9;
+  }
+
+  /* Tap-to-skip hint - appears late, fades softly */
+  .splash-skip {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    opacity: 0;
+    animation: splashHintFade 0.6s 2.5s ease-out forwards;
+  }
+
+  @keyframes splashHintFade {
+    to { opacity: 0.5; }
+  }
+
+  /* Reduced motion override for splash */
+  @media (prefers-reduced-motion: reduce) {
+    .splash-rule-line,
+    .splash-rule-diamond,
+    .splash-brand,
+    .splash-sub,
+    .splash-sub-line,
+    .splash-skip {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .splash-rule-line { transform: scaleX(1) !important; }
+    .splash-rule-diamond { transform: rotate(45deg) !important; }
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- ===================================================
+       SPLASH SCREEN — entrance moment, dismissible
+       =================================================== -->
+  <div class="splash" id="splash">
+    <div class="splash-stack">
+      <div class="splash-rule">
+        <span class="splash-rule-line left"></span>
+        <span class="splash-rule-diamond">◆</span>
+        <span class="splash-rule-line right"></span>
+      </div>
+      <h1 class="splash-brand">UNCLE'S</h1>
+      <div class="splash-sub">
+        <span class="splash-sub-line left"></span>
+        <span class="splash-sub-diamond">◆</span>
+        <span class="splash-sub-text">Panuozzo &amp; Sandwiches</span>
+        <span class="splash-sub-diamond">◆</span>
+        <span class="splash-sub-line right"></span>
+      </div>
+    </div>
+    <div class="splash-skip">Tap or scroll to begin</div>
+  </div>
+
+  <!-- Ambient layers -->
+  <div class="ambient" id="ambient"></div>
+  <div class="vignette"></div>
+
+  <div class="stage">
+
+    <!-- Editorial markers -->
+    <div class="top-markers">
+      <span>North Shields</span>
+      <span>Menu N° 01</span>
+    </div>
+
+    <!-- ===================================================
+         HEADER
+         =================================================== -->
+    <header class="header">
+      <h1 class="brand">UNCLE'S</h1>
+      <div class="sub">
+        <span class="sub-line"></span>
+        <span class="sub-diamond">◆</span>
+        <span class="sub-text">Panuozzo &amp; Sandwiches</span>
+        <span class="sub-diamond">◆</span>
+        <span class="sub-line right"></span>
+      </div>
+      <p class="tagline">Freshly baked daily &middot; premium ingredients</p>
+    </header>
+
+    <!-- ===================================================
+         SIGNATURE PANUOZZI
+         =================================================== -->
+    <div class="section-band">
+      <span class="section-line left"></span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-title">Signature Panuozzi</span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-line right"></span>
+    </div>
+    <p class="section-tagline">Choose Classico or Grande</p>
+
+    <div class="panuozzi">
+
+      <article class="pan-row">
+        <div class="pan-name">Roma</div>
+        <p class="pan-desc">Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze</p>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="pan-size-price">£8.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="pan-size-price">£11.45</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="pan-row">
+        <div class="pan-name">Milano</div>
+        <p class="pan-desc">Mortadella al pistachio, stracciatella, pistachio cream, crushed pistachios, rocket</p>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="pan-size-price">£8.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="pan-size-price">£11.45</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="pan-row">
+        <div class="pan-name">Palermo</div>
+        <p class="pan-desc">Spicy salami, fior di latte mozzarella, pesto, sun-dried tomatoes, roasted peppers, hot honey</p>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="pan-size-price">£8.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="pan-size-price">£11.45</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="pan-row">
+        <div class="pan-name">Rimini</div>
+        <p class="pan-desc">Roasted turkey, mozzarella, fresh tomato, pesto, caramelised onions, rocket</p>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="pan-size-price">£8.50</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="pan-size-price">£11.50</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="pan-row">
+        <div class="pan-name">Venezia</div>
+        <p class="pan-desc">Grilled Mediterranean vegetables, stracciatella, pesto, caramelised onions, roasted peppers, balsamic glaze</p>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="pan-size-price">£7.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="pan-size-price">£9.95</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- DOLCE -->
+    <!-- DOLCE — shared band with two flavour sub-rows -->
+    <div class="dolce">
+      <div class="dolce-eyebrow">Sweet Panuozzo</div>
+      <div class="dolce-name">Dolce</div>
+      <div class="dolce-divider"></div>
+      <div class="dolce-options">
+        <div class="dolce-row">
+          <div class="dolce-flavour">Nutella</div>
+          <div class="dolce-desc">Nutella</div>
+          <div class="dolce-price">£5.95</div>
+        </div>
+        <div class="dolce-row">
+          <div class="dolce-flavour">Pistachio</div>
+          <div class="dolce-desc">Pistachio cream</div>
+          <div class="dolce-price">£5.95</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================
+         ITALIAN COFFEE
+         =================================================== -->
+    <div class="section-band">
+      <span class="section-line left"></span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-title">Italian Coffee</span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-line right"></span>
+    </div>
+
+    <div class="list">
+      <div class="list-row"><span class="list-name">Espresso</span><span class="list-price">£2.20</span></div>
+      <div class="list-row"><span class="list-name">Americano</span><span class="list-price">£2.80</span></div>
+      <div class="list-row"><span class="list-name">Cappuccino</span><span class="list-price">£3.30</span></div>
+      <div class="list-row"><span class="list-name">Latte</span><span class="list-price">£3.30</span></div>
+      <div class="list-row"><span class="list-name">Flat White</span><span class="list-price">£3.30</span></div>
+    </div>
+
+    <!-- ===================================================
+         WATER & DRINKS
+         =================================================== -->
+    <div class="section-band">
+      <span class="section-line left"></span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-title">Water &amp; Drinks</span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-line right"></span>
+    </div>
+
+    <div class="list">
+      <div class="list-row group"><span class="list-name">Still Water &middot; Coca-Cola &middot; Fanta &middot; Sprite</span><span class="list-price">£1.00</span></div>
+      <div class="list-row"><span class="list-name">Sparkling Water</span><span class="list-price">£1.50</span></div>
+      <div class="list-row group"><span class="list-name">San Pellegrino Limonata &middot; Aranciata Rossa &middot; Chinotto</span><span class="list-price">£2.20</span></div>
+    </div>
+
+    <!-- ===================================================
+         EXTRAS
+         =================================================== -->
+    <div class="section-band">
+      <span class="section-line left"></span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-title">Extras</span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-line right"></span>
+    </div>
+    <p class="section-tagline">Add to any panuozzo</p>
+
+    <div class="extras">
+      <div class="extras-row"><span class="extras-name">Mozzarella</span><span class="extras-price">£1.50</span></div>
+      <div class="extras-row"><span class="extras-name">Turkey</span><span class="extras-price">£2.00</span></div>
+      <div class="extras-row"><span class="extras-name">Stracciatella</span><span class="extras-price">£2.00</span></div>
+      <div class="extras-row"><span class="extras-name">Pistachio Cream</span><span class="extras-price">£1.50</span></div>
+      <div class="extras-row"><span class="extras-name">Prosciutto</span><span class="extras-price">£2.50</span></div>
+      <div class="extras-row"><span class="extras-name">Pesto</span><span class="extras-price">£1.00</span></div>
+      <div class="extras-row"><span class="extras-name">Salami</span><span class="extras-price">£2.00</span></div>
+      <div class="extras-row"><span class="extras-name">Hot Honey</span><span class="extras-price">£1.00</span></div>
+      <div class="extras-row span-full"><span class="extras-name">Mortadella</span><span class="extras-price">£2.00</span></div>
+    </div>
+
+    <!-- ===================================================
+         DESSERTS
+         =================================================== -->
+    <div class="section-band">
+      <span class="section-line left"></span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-title">Desserts</span>
+      <span class="section-band-diamond">◆</span>
+      <span class="section-line right"></span>
+    </div>
+
+    <div class="desserts">
+      <div class="dessert-card">
+        <div class="dessert-row">
+          <span class="dessert-name">Tiramisu</span>
+          <span class="dessert-price">£5.00</span>
+        </div>
+        <div class="dessert-desc">Mascarpone, coffee, cacao</div>
+      </div>
+      <div class="dessert-card">
+        <div class="dessert-row">
+          <span class="dessert-name">Cannoli</span>
+          <span class="dessert-price">£2.00</span>
+        </div>
+        <div class="dessert-desc">Ricotta, pistachio or chocolate</div>
+      </div>
+    </div>
+
+    <!-- ===================================================
+         FOOTER
+         =================================================== -->
+    <footer class="footer">
+      <div class="footer-brand">UNCLE'S</div>
+      <div class="footer-sub">Panuozzo &amp; Sandwiches</div>
+      <div class="footer-trio">
+        Freshly Baked Daily<span class="footer-diamond">◆</span>Premium Ingredients<br>
+        North Shields &middot; NE30
+      </div>
+    </footer>
+
+  </div>
+
+<script>
+  /* ===========================================================
+     MOTION CONTROLLERS
+     - Splash dismissal: tap, scroll, or auto-lift after timeout
+     - Ambient parallax: very subtle drift on scroll (3-4% range)
+     =========================================================== */
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ----------------------------------------------------------
+  // SPLASH DISMISSAL
+  // Tap, scroll, or auto-lift at ~3.4s. Once dismissed, stays.
+  // ----------------------------------------------------------
+  const splash = document.getElementById('splash');
+  let splashLifted = false;
+
+  function liftSplash() {
+    if (splashLifted) return;
+    splashLifted = true;
+    splash.classList.add('lifting');
+  }
+
+  // Tap to dismiss
+  splash.addEventListener('click', liftSplash, { once: true });
+  splash.addEventListener('touchstart', liftSplash, { once: true, passive: true });
+
+  // Scroll to dismiss (the menu is already there beneath the splash)
+  window.addEventListener('scroll', liftSplash, { once: true, passive: true });
+  window.addEventListener('wheel', liftSplash, { once: true, passive: true });
+
+  // Auto-lift after the entrance sequence completes
+  // (sequence runs ~2.8s; let it sit ~600ms then lift)
+  const autoLiftDelay = reduceMotion ? 600 : 3400;
+  setTimeout(liftSplash, autoLiftDelay);
+
+  // ----------------------------------------------------------
+  // AMBIENT PARALLAX — subtler than v1
+  // ----------------------------------------------------------
+  if (!reduceMotion) {
+    const ambient = document.getElementById('ambient');
+    let ticking = false;
+
+    function updateAmbient() {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollY / docHeight : 0;
+
+      // Very small drift — barely perceptible. Range ~3-4% per origin.
+      const x1 = 25 + progress * 3;
+      const y1 = 18 + progress * 4;
+      const x2 = 78 - progress * 3;
+      const y2 = 85 - progress * 4;
+
+      ambient.style.setProperty('--bg-x1', x1 + '%');
+      ambient.style.setProperty('--bg-y1', y1 + '%');
+      ambient.style.setProperty('--bg-x2', x2 + '%');
+      ambient.style.setProperty('--bg-y2', y2 + '%');
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateAmbient);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+</script>
+
+</body>
+</html>

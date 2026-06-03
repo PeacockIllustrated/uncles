@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uncle's — Brand Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --green-deep: #0E1914;
+    --green-base: #13241D;
+    --green-mid:  #1C2F26;
+    --gold:       #C7A06A;
+    --gold-soft:  #A88654;
+    --gold-faint: rgba(199, 160, 106, 0.22);
+    --gold-line:  rgba(199, 160, 106, 0.45);
+    --cream:      #E8DDC7;
+    --cream-soft: rgba(232, 221, 199, 0.7);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--cream);
+    background: var(--green-base);
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(28, 47, 38, 0.8) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 100%, rgba(14, 25, 20, 0.8) 0%, transparent 55%),
+      linear-gradient(180deg, var(--green-base) 0%, var(--green-deep) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    line-height: 1.5;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.63  0 0 0 0 0.42  0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(14, 25, 20, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gold-faint);
+  }
+
+  .nav-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 18px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 140px 0 100px;
+    text-align: center;
+    border-bottom: 1px solid var(--gold-faint);
+  }
+
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 24px;
+  }
+
+  .hero-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: clamp(60px, 12vw, 168px);
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    line-height: 0.95;
+    text-shadow: 0 4px 40px rgba(199, 160, 106, 0.2);
+  }
+
+  .hero-sub {
+    margin-top: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .sub-line {
+    height: 1px;
+    width: 110px;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  }
+
+  .sub-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .hero-tag {
+    margin-top: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--cream-soft);
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-meta {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+
+  /* ===== SECTIONS ===== */
+  section.block {
+    padding: 110px 0;
+    border-bottom: 1px solid var(--gold-faint);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 50px;
+  }
+
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gold-faint);
+  }
+
+  .section-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(40px, 6vw, 64px);
+    color: var(--gold);
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+
+  .section-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--cream-soft);
+    max-width: 680px;
+    line-height: 1.5;
+    margin-bottom: 60px;
+  }
+
+  /* ===== LOGO ===== */
+  .logo-stage {
+    background: var(--green-deep);
+    border: 1px solid var(--gold-faint);
+    padding: 100px 40px;
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+  }
+
+  .logo-stage::before, .logo-stage::after,
+  .logo-stage .corner-tl, .logo-stage .corner-tr,
+  .logo-stage .corner-bl, .logo-stage .corner-br {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: var(--gold);
+    border-style: solid;
+  }
+  .logo-stage::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+  .logo-stage::after  { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+  .logo-stage .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+  .logo-stage .corner-br { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+  .logo-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: clamp(60px, 9vw, 120px);
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .logo-mark-sub {
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .logo-mark-sub .ml { width: 80px; }
+  .logo-mark-sub .mr { width: 80px; }
+  .logo-mark-sub-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .logo-mark-sub .ml, .logo-mark-sub .mr {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  }
+  .logo-mark-ornament {
+    color: var(--gold);
+    font-size: 11px;
+  }
+
+  /* Logo variants grid */
+  .variants-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 50px;
+  }
+
+  .variant {
+    border: 1px solid var(--gold-faint);
+    padding: 50px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    position: relative;
+  }
+
+  .variant.dark { background: var(--green-deep); }
+  .variant.cream { background: var(--cream); }
+  .variant.gold-block { background: var(--gold); }
+
+  .variant-label {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+
+  .variant.cream .variant-label { color: var(--green-deep); opacity: 0.6; }
+  .variant.gold-block .variant-label { color: var(--green-deep); opacity: 0.7; }
+
+  .variant-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 38px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .variant.dark .variant-mark { color: var(--gold); }
+  .variant.cream .variant-mark { color: var(--green-deep); }
+  .variant.gold-block .variant-mark { color: var(--green-deep); }
+
+  .variant-sub {
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .variant.dark .variant-sub { color: var(--gold); }
+  .variant.cream .variant-sub { color: var(--green-deep); opacity: 0.8; }
+  .variant.gold-block .variant-sub { color: var(--green-deep); opacity: 0.9; }
+
+  /* Clear space + minimum size */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .rule-card {
+    background: rgba(14, 25, 20, 0.5);
+    border: 1px solid var(--gold-faint);
+    padding: 36px;
+  }
+
+  .rule-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .rule-body {
+    font-size: 14px;
+    color: var(--cream-soft);
+    line-height: 1.7;
+  }
+
+  .rule-visual {
+    margin-top: 24px;
+    padding: 30px;
+    background: var(--green-deep);
+    border: 1px dashed var(--gold-line);
+    text-align: center;
+    position: relative;
+  }
+
+  .rule-visual-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+  }
+
+  .clear-space-marker {
+    position: absolute;
+    color: var(--gold-soft);
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .clear-space-marker.top { top: 6px; left: 50%; transform: translateX(-50%); }
+  .clear-space-marker.bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
+  .clear-space-marker.left { left: 6px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+  .clear-space-marker.right { right: 6px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+  /* ===== COLOUR ===== */
+  .colour-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 60px;
+  }
+
+  .swatch {
+    border: 1px solid var(--gold-faint);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+  }
+
+  .swatch-block {
+    flex: 1;
+    min-height: 180px;
+    position: relative;
+  }
+
+  .swatch-info {
+    background: rgba(14, 25, 20, 0.85);
+    padding: 18px 20px;
+    border-top: 1px solid var(--gold-faint);
+  }
+
+  .swatch-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--cream);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .swatch-role {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 10px;
+  }
+
+  .swatch-codes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--cream-soft);
+    line-height: 1.6;
+  }
+
+  .swatch-codes span { color: var(--gold); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-right: 8px; }
+
+  .swatch.large { grid-row: span 1; }
+  .swatch.large .swatch-block { min-height: 180px; }
+
+  .colour-usage {
+    background: rgba(14, 25, 20, 0.5);
+    border: 1px solid var(--gold-faint);
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  .usage-item {
+    border-left: 1px solid var(--gold-faint);
+    padding-left: 24px;
+  }
+  .usage-item:first-child { border-left: none; padding-left: 0; }
+
+  .usage-pct {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 42px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .usage-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .usage-desc {
+    font-size: 13px;
+    color: var(--cream-soft);
+    line-height: 1.6;
+  }
+
+  /* ===== TYPOGRAPHY ===== */
+  .type-stack {
+    display: grid;
+    gap: 32px;
+  }
+
+  .type-card {
+    background: rgba(14, 25, 20, 0.5);
+    border: 1px solid var(--gold-faint);
+    padding: 50px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .type-meta-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .type-meta-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 28px;
+    color: var(--cream);
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .type-meta-role {
+    font-size: 13px;
+    color: var(--cream-soft);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .type-weights {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    line-height: 1.8;
+  }
+
+  .type-specimen-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 96px;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+
+  .type-specimen-italic {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--cream);
+    margin-bottom: 24px;
+  }
+
+  .type-specimen-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--cream-soft);
+    line-height: 1.6;
+    max-width: 460px;
+  }
+
+  .type-specimen-caps {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .type-specimen-spec {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--cream);
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+
+  /* Type scale */
+  .scale-table {
+    margin-top: 50px;
+    border: 1px solid var(--gold-faint);
+    background: rgba(14, 25, 20, 0.5);
+  }
+
+  .scale-row {
+    display: grid;
+    grid-template-columns: 200px 100px 1fr;
+    align-items: center;
+    padding: 22px 36px;
+    border-bottom: 1px solid var(--gold-faint);
+    gap: 30px;
+  }
+  .scale-row:last-child { border-bottom: none; }
+
+  .scale-row-header {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    background: rgba(14, 25, 20, 0.7);
+  }
+
+  .scale-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .scale-size {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--cream-soft);
+  }
+
+  .scale-sample {
+    color: var(--cream);
+  }
+
+  /* ===== USAGE ===== */
+  .do-dont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .do-dont {
+    border: 1px solid var(--gold-faint);
+    background: rgba(14, 25, 20, 0.5);
+    padding: 36px;
+  }
+
+  .do-dont-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gold-faint);
+  }
+
+  .do-dont-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .do-dont-mark.do {
+    background: var(--gold);
+    color: var(--green-deep);
+  }
+  .do-dont-mark.dont {
+    background: transparent;
+    border: 1px solid var(--gold-soft);
+    color: var(--gold-soft);
+  }
+
+  .do-dont-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .do-dont ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .do-dont li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(199, 160, 106, 0.1);
+    font-size: 14px;
+    color: var(--cream-soft);
+    line-height: 1.5;
+    padding-left: 24px;
+    position: relative;
+  }
+
+  .do-dont li:last-child { border-bottom: none; }
+
+  .do-dont li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  .do-dont.dont li::before {
+    background: transparent;
+    border: 1px solid var(--gold-soft);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+
+  .footer-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .footer-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 8px;
+  }
+
+  .footer-credit {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream-soft);
+  }
+
+  /* ===== RESPONSIVE ===== */
+
+  /* Tablet (1024px and below) */
+  @media (max-width: 1024px) {
+    .container, .nav-inner { padding: 0 40px; }
+    .nav-inner { padding: 16px 40px; }
+    .nav-links { gap: 24px; }
+    .nav-links a { font-size: 11px; letter-spacing: 0.28em; }
+
+    section.block { padding: 90px 0; }
+    .hero { padding: 110px 0 80px; }
+
+    .colour-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .swatch.large { grid-column: span 2; }
+    .swatch.large .swatch-block { min-height: 220px; }
+
+    .type-card {
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 40px;
+    }
+    .type-specimen-display { font-size: 72px; }
+
+    .scale-row {
+      grid-template-columns: 160px 90px 1fr;
+      padding: 20px 28px;
+      gap: 20px;
+    }
+  }
+
+  /* Small tablet / large phone (768px and below) */
+  @media (max-width: 768px) {
+    .container, .nav-inner { padding: 0 28px; }
+    .nav-inner { padding: 14px 28px; }
+    .nav-links { display: none; }
+    .nav-brand { font-size: 18px; }
+
+    section.block { padding: 70px 0; }
+    .hero { padding: 80px 0 60px; }
+
+    .hero-eyebrow { font-size: 10px; letter-spacing: 0.4em; margin-bottom: 18px; }
+    .hero-sub { gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .sub-line { width: 60px; }
+    .sub-text { font-size: 11px; letter-spacing: 0.32em; }
+    .hero-tag { font-size: 18px; margin-top: 36px; padding: 0 12px; }
+    .hero-meta {
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 50px;
+      font-size: 10px;
+      letter-spacing: 0.32em;
+    }
+
+    .section-label { margin-bottom: 36px; gap: 14px; }
+    .section-num { font-size: 16px; }
+    .section-name { font-size: 10px; letter-spacing: 0.4em; }
+    .section-title { font-size: 36px; margin-bottom: 18px; }
+    .section-intro { font-size: 18px; margin-bottom: 40px; }
+
+    /* Logo section */
+    .logo-stage { padding: 60px 24px; }
+    .logo-mark { font-size: 48px; }
+    .logo-mark-sub { gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .logo-mark-sub .ml, .logo-mark-sub .mr { width: 40px; }
+    .logo-mark-sub-text { font-size: 10px; letter-spacing: 0.32em; }
+
+    .variants-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .variant { padding: 50px 20px; min-height: 180px; }
+    .variant-mark { font-size: 32px; }
+
+    .rules-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .rule-card { padding: 28px 24px; }
+    .rule-visual { padding: 36px 24px; }
+    .rule-visual-mark { font-size: 26px; }
+    .clear-space-marker { font-size: 8px; }
+
+    /* Colour section */
+    .colour-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .swatch { min-height: 220px; }
+    .swatch-block { min-height: 130px; }
+    .swatch.large { grid-column: span 2; }
+    .swatch.large .swatch-block { min-height: 180px; }
+    .swatch-info { padding: 14px 16px; }
+    .swatch-name { font-size: 16px; }
+    .swatch-role { font-size: 9px; letter-spacing: 0.28em; }
+    .swatch-codes { font-size: 10px; }
+    .swatch-codes span { font-size: 9px; }
+
+    .colour-usage {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 28px 24px;
+    }
+    .usage-item {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid var(--gold-faint);
+      padding-top: 20px;
+    }
+    .usage-item:first-child { border-top: none; padding-top: 0; }
+    .usage-pct { font-size: 36px; }
+
+    /* Typography section */
+    .type-card {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 28px 24px;
+    }
+    .type-meta-name { font-size: 24px; }
+    .type-specimen-display { font-size: 48px; line-height: 1; }
+    .type-specimen-italic { font-size: 24px; margin-bottom: 18px; }
+    .type-specimen-body { font-size: 14px; max-width: 100%; }
+    .type-specimen-spec { font-size: 18px; }
+
+    .scale-table { margin-top: 36px; }
+    .scale-row {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 20px 22px;
+      align-items: start;
+    }
+    .scale-row-header { display: none; }
+    .scale-name { font-size: 10px; }
+    .scale-size {
+      font-size: 11px;
+      color: var(--gold-soft);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* Usage section */
+    .do-dont-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .do-dont { padding: 28px 24px; }
+    .do-dont-header { gap: 12px; margin-bottom: 20px; padding-bottom: 16px; }
+    .do-dont-label { font-size: 11px; letter-spacing: 0.36em; }
+    .do-dont li { font-size: 13px; padding: 9px 0 9px 22px; }
+
+    /* Footer */
+    footer { padding: 60px 0 50px; }
+    .footer-mark { font-size: 28px; }
+    .footer-meta { font-size: 10px; letter-spacing: 0.32em; }
+    .footer-credit { font-size: 13px; }
+  }
+
+  /* Phone (480px and below) */
+  @media (max-width: 480px) {
+    .container, .nav-inner { padding: 0 20px; }
+    .nav-inner { padding: 12px 20px; }
+    .nav-brand { font-size: 16px; letter-spacing: 0.06em; }
+
+    section.block { padding: 56px 0; }
+    .hero { padding: 60px 0 48px; }
+
+    .hero-tag { font-size: 16px; margin-top: 30px; }
+    .section-title { font-size: 28px; }
+    .section-intro { font-size: 16px; margin-bottom: 32px; }
+
+    /* Logo section */
+    .logo-stage { padding: 44px 16px; }
+    .logo-mark { font-size: 36px; }
+    .logo-mark-sub-text { font-size: 9px; letter-spacing: 0.28em; }
+    .logo-mark-sub .ml, .logo-mark-sub .mr { width: 30px; }
+
+    .variant { padding: 40px 16px; min-height: 150px; }
+    .variant-mark { font-size: 26px; }
+    .variant-sub { font-size: 8px; letter-spacing: 0.24em; }
+    .variant-label { font-size: 9px; letter-spacing: 0.3em; }
+
+    .rule-card { padding: 22px 18px; }
+    .rule-title { font-size: 10px; letter-spacing: 0.36em; }
+    .rule-body { font-size: 13px; }
+    .rule-visual { padding: 30px 16px; }
+    .rule-visual-mark { font-size: 22px; }
+
+    /* Colour: stack to single column on tiny screens */
+    .colour-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .swatch { min-height: 180px; }
+    .swatch-block { min-height: 120px; }
+    .swatch.large { grid-column: span 1; }
+    .swatch.large .swatch-block { min-height: 140px; }
+    .colour-usage { padding: 24px 20px; }
+    .usage-pct { font-size: 32px; }
+    .usage-name { font-size: 10px; letter-spacing: 0.32em; }
+
+    /* Typography */
+    .type-card { padding: 24px 20px; gap: 24px; }
+    .type-meta-label { font-size: 10px; letter-spacing: 0.36em; }
+    .type-meta-name { font-size: 22px; }
+    .type-meta-role { font-size: 13px; }
+    .type-specimen-display { font-size: 40px; }
+    .type-specimen-italic { font-size: 20px; }
+    .type-specimen-spec { font-size: 16px; }
+
+    .scale-row { padding: 16px 18px; }
+    .scale-name { font-size: 9px; letter-spacing: 0.3em; }
+
+    /* Usage */
+    .do-dont { padding: 22px 20px; }
+    .do-dont li { font-size: 12px; padding: 8px 0 8px 20px; }
+    .do-dont li::before { top: 15px; width: 5px; height: 5px; }
+
+    /* Footer */
+    .footer-mark { font-size: 24px; }
+  }
+
+  /* =========================================================
+     MENU SECTION — interactive editable menu (lives inside brand pack)
+     ========================================================= */
+
+  .menu-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    background: rgba(14, 25, 20, 0.55);
+    border: 1px solid var(--gold-faint);
+    border-radius: 2px;
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .menu-wrap::before, .menu-wrap::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    background: var(--green-base);
+  }
+  .menu-wrap::before { left: -5px; top: -5px; }
+  .menu-wrap::after  { right: -5px; bottom: -5px; }
+
+  .menu-instructions {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--gold-faint);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .menu-instructions-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .menu-instructions-icon span {
+    transform: rotate(-45deg);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .menu-instructions-text {
+    flex: 1;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--cream-soft);
+    line-height: 1.55;
+  }
+
+  .menu-instructions-text strong {
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* Menu sections */
+  .menu-block {
+    margin-bottom: 40px;
+  }
+  .menu-block:last-of-type { margin-bottom: 24px; }
+
+  .menu-block-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .menu-block-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-faint) 30%, var(--gold) 100%); }
+  .menu-block-line.right { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-faint) 70%, transparent); }
+
+  .menu-block-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: 0.26em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .menu-block-diamond {
+    color: var(--gold);
+    font-size: 9px;
+    transform: rotate(45deg);
+    display: inline-block;
+  }
+
+  .menu-laurel {
+    display: block;
+    margin: 0 auto 14px;
+    width: 60px;
+    height: 12px;
+    opacity: 0.7;
+  }
+  .menu-laurel path, .menu-laurel line { stroke: var(--gold); stroke-width: 1; fill: none; stroke-linecap: round; }
+  .menu-laurel .dot { fill: var(--gold); stroke: none; }
+
+  .menu-tagline {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--cream-soft);
+    margin: 0 0 16px;
+    opacity: 0.75;
+  }
+
+  /* Editable price */
+  .price-edit {
+    display: inline-block;
+    border: 1px solid transparent;
+    padding: 2px 8px;
+    border-radius: 2px;
+    color: var(--gold);
+    background: transparent;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    cursor: text;
+    min-width: 60px;
+    text-align: center;
+    transition: border 0.15s, background 0.15s, box-shadow 0.15s;
+    outline: none;
+    letter-spacing: 0.02em;
+    position: relative;
+  }
+  .price-edit:hover {
+    border-color: var(--gold-faint);
+    background: rgba(199, 160, 106, 0.04);
+  }
+  .price-edit:focus {
+    border-color: var(--gold);
+    background: rgba(199, 160, 106, 0.08);
+    box-shadow: 0 0 0 2px rgba(199, 160, 106, 0.15);
+  }
+  .price-edit.untouched::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -3px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: pulse-dot 2.4s ease-in-out 1.2s 2 forwards;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Panuozzi item in brand-pack menu */
+  .pan-item {
+    border-bottom: 1px solid var(--gold-faint);
+    padding: 18px 4px;
+    position: relative;
+  }
+  .pan-item:last-child { border-bottom: none; }
+  .pan-item::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 28px;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.4;
+  }
+
+  .pan-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .pan-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    opacity: 0.85;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+
+  .pan-prices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pan-size {
+    border: 1px solid var(--gold-faint);
+    background: rgba(14, 25, 20, 0.4);
+    padding: 10px 12px;
+    text-align: center;
+    border-radius: 2px;
+  }
+
+  .pan-size-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+  }
+
+  .pan-size .price-edit {
+    font-size: 19px;
+  }
+
+  /* Dolce */
+  .dolce-box {
+    margin-top: 14px;
+    border: 1px solid var(--gold-line);
+    padding: 18px 20px;
+    background: rgba(14, 25, 20, 0.5);
+    position: relative;
+    border-radius: 2px;
+  }
+  .dolce-box::before, .dolce-box::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    background: var(--green-base);
+  }
+  .dolce-box::before { left: -4px; top: 50%; margin-top: -4px; }
+  .dolce-box::after  { right: -4px; top: 50%; margin-top: -4px; }
+  .dolce-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 6px;
+  }
+  .dolce-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .dolce-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    opacity: 0.85;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+  .dolce-price-wrap {
+    text-align: center;
+    padding: 8px 0 2px;
+    border-top: 1px solid var(--gold-faint);
+  }
+  .dolce-price-wrap .price-edit { font-size: 19px; }
+
+  /* Simple row */
+  .menu-row-list { display: flex; flex-direction: column; }
+  .menu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 11px 4px;
+    border-bottom: 1px solid var(--gold-faint);
+    gap: 10px;
+  }
+  .menu-row:last-child { border-bottom: none; }
+  .menu-row-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--cream);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .menu-row-dots {
+    flex: 1;
+    border-bottom: 1px dotted var(--gold-faint);
+    transform: translateY(-3px);
+    min-width: 20px;
+  }
+  .menu-row .price-edit {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Dessert */
+  .dessert-item {
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--gold-faint);
+  }
+  .dessert-item:last-child { border-bottom: none; }
+  .dessert-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+  .dessert-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .dessert-row .price-edit { font-size: 17px; }
+  .dessert-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--cream);
+    opacity: 0.78;
+    line-height: 1.4;
+  }
+
+  /* Action area inside menu */
+  .menu-action {
+    margin-top: 28px;
+    padding: 28px 24px 22px;
+    background: rgba(14, 25, 20, 0.6);
+    border: 1px solid var(--gold-faint);
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .menu-action-flourish {
+    display: block;
+    margin: 0 auto 12px;
+    width: 70px;
+    height: 12px;
+    opacity: 0.7;
+  }
+  .menu-action-flourish path, .menu-action-flourish line { stroke: var(--gold); stroke-width: 1; fill: none; stroke-linecap: round; }
+  .menu-action-flourish .dot { fill: var(--gold); stroke: none; }
+
+  .menu-action-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .menu-action-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--cream-soft);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .menu-btn-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .menu-btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid var(--gold);
+    background: var(--gold);
+    color: var(--green-deep);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .menu-btn:hover { background: transparent; color: var(--gold); }
+  .menu-btn.secondary {
+    background: transparent;
+    color: var(--gold-soft);
+    border-color: var(--gold-faint);
+  }
+  .menu-btn.secondary:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(199, 160, 106, 0.05);
+  }
+  .menu-btn svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .menu-status {
+    margin-top: 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--gold-soft);
+    min-height: 16px;
+    transition: opacity 0.3s;
+  }
+
+  /* Mobile adjustments for menu inside brand pack */
+  @media (max-width: 768px) {
+    .menu-wrap { padding: 24px 18px; }
+    .menu-instructions { gap: 12px; }
+    .pan-name { font-size: 20px; }
+    .dolce-name { font-size: 20px; }
+    .pan-prices { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .menu-row-name { font-size: 15px; }
+    .menu-row .price-edit { font-size: 15px; }
+  }
+  @media (max-width: 480px) {
+    .menu-wrap { padding: 20px 14px; }
+    .pan-name { font-size: 18px; }
+    .pan-desc, .dolce-desc { font-size: 13px; }
+    .pan-size .price-edit, .dolce-price-wrap .price-edit { font-size: 17px; }
+    .menu-row-name { font-size: 14px; }
+    .menu-row .price-edit { font-size: 14px; }
+    .dessert-name { font-size: 15px; }
+    .dessert-row .price-edit { font-size: 15px; }
+  }
+
+  /* =========================================================
+     UKRAINIAN TRANSLATION BLOCKS — section summaries for Roma
+     ========================================================= */
+  .ua-summary {
+    margin: -14px 0 44px;
+    padding: 18px 22px;
+    border-left: 2px solid var(--gold);
+    background: rgba(199, 160, 106, 0.04);
+    max-width: 720px;
+    border-radius: 0 2px 2px 0;
+    position: relative;
+  }
+
+  .ua-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+
+  .ua-flag-mark {
+    display: inline-block;
+    width: 16px;
+    height: 11px;
+    background: linear-gradient(to bottom, #0057B7 0%, #0057B7 50%, #FFD700 50%, #FFD700 100%);
+    border-radius: 1px;
+    border: 0.5px solid var(--gold-faint);
+  }
+
+  .ua-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: var(--cream);
+    line-height: 1.55;
+    opacity: 0.92;
+  }
+
+  /* =========================================================
+     MENU SECTION — make it visually distinct as the interactive zone
+     ========================================================= */
+  section.block.menu-block-section {
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(199, 160, 106, 0.06) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(199, 160, 106, 0.03) 0%, transparent 100%);
+    border-top: 1px solid var(--gold-line);
+    border-bottom: 1px solid var(--gold-line);
+    position: relative;
+  }
+
+  /* Glow accent at top */
+  section.block.menu-block-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+    box-shadow: 0 0 20px rgba(199, 160, 106, 0.4);
+  }
+
+  /* Action callout banner — sits above the menu */
+  .action-callout {
+    max-width: 720px;
+    margin: 0 auto 36px;
+    padding: 28px 32px;
+    background:
+      linear-gradient(135deg, rgba(199, 160, 106, 0.12) 0%, rgba(199, 160, 106, 0.04) 100%);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 0 0 1px rgba(199, 160, 106, 0.15), 0 8px 32px rgba(14, 25, 20, 0.4);
+  }
+
+  /* Diamond corners */
+  .action-callout::before,
+  .action-callout::after,
+  .action-callout .corner-tl,
+  .action-callout .corner-br {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    background: var(--green-base);
+  }
+  .action-callout::before  { left: -7px; top: -7px; }
+  .action-callout::after   { right: -7px; top: -7px; }
+  .action-callout .corner-tl { left: -7px; bottom: -7px; }
+  .action-callout .corner-br { right: -7px; bottom: -7px; }
+
+  .action-callout-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    padding: 6px 14px;
+    border: 1px solid var(--gold);
+    border-radius: 100px;
+    background: rgba(14, 25, 20, 0.6);
+  }
+
+  .action-callout-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 0 rgba(199, 160, 106, 0.8);
+    animation: pulse-glow 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(199, 160, 106, 0.6); transform: scale(1); }
+    50% { box-shadow: 0 0 0 8px rgba(199, 160, 106, 0); transform: scale(1.15); }
+  }
+
+  .action-callout-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: var(--gold);
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: 0.01em;
+  }
+
+  .action-callout-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    color: var(--cream);
+    line-height: 1.55;
+    margin-bottom: 14px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .action-callout-body strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .action-callout-ua {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--gold-faint);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--cream-soft);
+    line-height: 1.5;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .action-callout-ua-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-style: normal;
+  }
+
+  .action-arrow-down {
+    display: block;
+    margin: 18px auto 0;
+    width: 18px;
+    height: 26px;
+    color: var(--gold);
+    animation: arrow-bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes arrow-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
+
+  /* Live indicator badge on section label */
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+    padding: 4px 10px;
+    background: var(--gold);
+    color: var(--green-deep);
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    border-radius: 100px;
+  }
+
+  .live-badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green-deep);
+    animation: live-pulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Mobile callout adjustments */
+  @media (max-width: 768px) {
+    .action-callout { padding: 22px 22px; margin: 0 auto 28px; }
+    .action-callout-title { font-size: 26px; }
+    .action-callout-body { font-size: 15px; }
+    .action-callout-ua { font-size: 14px; }
+    .ua-summary { padding: 14px 18px; margin: -10px 0 32px; }
+    .ua-text { font-size: 14px; }
+    .live-badge { margin-left: 8px; padding: 3px 8px; font-size: 8px; }
+  }
+  @media (max-width: 480px) {
+    .action-callout-title { font-size: 22px; }
+    .action-callout-eyebrow { font-size: 9px; letter-spacing: 0.4em; }
+    .live-badge { display: none; } /* free up space on tiny screens */
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">UNCLE'S</div>
+    <ul class="nav-links">
+      <li><a href="#logo">Logo</a></li>
+      <li><a href="#colour">Colour</a></li>
+      <li><a href="#type">Type</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#menu">Menu</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Brand Pack &amp; Menu — Master Document V1.0</div>
+    <div class="hero-logo">UNCLE'S</div>
+    <div class="hero-sub">
+      <span class="sub-line"></span>
+      <span class="sub-text">Panuozzo &amp; Sandwiches</span>
+      <span class="sub-line"></span>
+    </div>
+    <p class="hero-tag">The complete visual system and live menu for an authentic Italian panuozzeria in North Shields. Brand identity, typography, colour, and an editable menu in a single document.</p>
+    <p class="hero-tag" style="margin-top: 18px; font-size: 18px; opacity: 0.75;"><span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-style: normal; font-size: 9px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 6px;"><span style="display: inline-block; width: 16px; height: 11px; background: linear-gradient(to bottom, #0057B7 0%, #0057B7 50%, #FFD700 50%, #FFD700 100%); border-radius: 1px;"></span>Українською</span><br>Повний візуальний стиль і живе меню для автентичної італійської пануоццерії в Норт-Шилдсі.</p>
+    <div class="hero-meta">
+      <span>North Shields</span>
+      <span>Issued April 2026</span>
+      <span>Tom.Peacock.Design</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOGO ===== -->
+<section class="block" id="logo">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">01</span>
+      <span class="section-line"></span>
+      <span class="section-name">Logo</span>
+    </div>
+    <h2 class="section-title">The Mark</h2>
+    <p class="section-intro">The wordmark sets in Cormorant Garamond Bold with a refined sub-line in Inter all-caps. Treat it as a single composition — never separate, restyle, or substitute the wordmark.</p>
+
+    <div class="ua-summary">
+      <div class="ua-flag"><span class="ua-flag-mark"></span><span>Українською</span></div>
+      <p class="ua-text">Логотип і його варіанти. Як його правильно використовувати, мінімальний розмір та необхідна відстань навколо.</p>
+    </div>
+
+    <!-- Hero logo stage -->
+    <div class="logo-stage">
+      <span class="corner-bl"></span>
+      <span class="corner-br"></span>
+      <div class="logo-mark">UNCLE'S</div>
+      <div class="logo-mark-sub">
+        <span class="ml"></span>
+        <span class="logo-mark-ornament">◆</span>
+        <span class="logo-mark-sub-text">Panuozzo &amp; Sandwiches</span>
+        <span class="logo-mark-ornament">◆</span>
+        <span class="mr"></span>
+      </div>
+    </div>
+
+    <!-- Variants -->
+    <div class="variants-grid">
+      <div class="variant dark">
+        <div class="variant-mark" style="color: var(--gold);">UNCLE'S</div>
+        <div class="variant-sub">Panuozzo &amp; Sandwiches</div>
+        <div class="variant-label">Primary — Gold on Mallard</div>
+      </div>
+      <div class="variant cream">
+        <div class="variant-mark">UNCLE'S</div>
+        <div class="variant-sub">Panuozzo &amp; Sandwiches</div>
+        <div class="variant-label">Reverse — Mallard on Cream</div>
+      </div>
+      <div class="variant gold-block">
+        <div class="variant-mark">UNCLE'S</div>
+        <div class="variant-sub">Panuozzo &amp; Sandwiches</div>
+        <div class="variant-label">Mono — Mallard on Gold</div>
+      </div>
+    </div>
+
+    <!-- Rules -->
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-title">Clear Space</div>
+        <p class="rule-body">Maintain clear space equal to the cap height of the U on all sides. Nothing — type, imagery, edge — should encroach within this margin.</p>
+        <div class="rule-visual">
+          <span class="clear-space-marker top">— X —</span>
+          <span class="clear-space-marker bottom">— X —</span>
+          <span class="clear-space-marker left">X</span>
+          <span class="clear-space-marker right">X</span>
+          <div class="rule-visual-mark">UNCLE'S</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-title">Minimum Size</div>
+        <p class="rule-body">For digital, the wordmark must not be set below 80px wide. For print, no smaller than 25mm wide. Below this, the sub-line drops out and the wordmark stands alone.</p>
+        <div class="rule-visual">
+          <div class="rule-visual-mark" style="font-size: 22px;">UNCLE'S</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-soft); margin-top: 8px;">Wordmark only — under 25mm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COLOUR ===== -->
+<section class="block" id="colour">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">02</span>
+      <span class="section-line"></span>
+      <span class="section-name">Colour</span>
+    </div>
+    <h2 class="section-title">Mallard &amp; Antique Gold</h2>
+    <p class="section-intro">A deep textured mallard green carries the brand. Muted antique gold provides every accent — never bright, never shiny. Cream supports as a tertiary tone for softer body copy and reverse applications.</p>
+
+    <div class="ua-summary">
+      <div class="ua-flag"><span class="ua-flag-mark"></span><span>Українською</span></div>
+      <p class="ua-text">Кольори бренду — глибокий темно-зелений, приглушене антикварне золото та кремовий. Коли і де використовувати кожен.</p>
+    </div>
+
+    <div class="colour-grid">
+      <div class="swatch large">
+        <div class="swatch-block" style="background: #13241D;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Mallard Green</div>
+          <div class="swatch-role">Primary background</div>
+          <div class="swatch-codes">
+            <div><span>HEX</span> #13241D</div>
+            <div><span>RGB</span> 19 / 36 / 29</div>
+            <div><span>CMYK</span> 81 / 56 / 73 / 70</div>
+          </div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: #0E1914;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Mallard Deep</div>
+          <div class="swatch-role">Shadow / depth</div>
+          <div class="swatch-codes">
+            <div><span>HEX</span> #0E1914</div>
+            <div><span>RGB</span> 14 / 25 / 20</div>
+          </div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: #C7A06A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Antique Gold</div>
+          <div class="swatch-role">Primary accent</div>
+          <div class="swatch-codes">
+            <div><span>HEX</span> #C7A06A</div>
+            <div><span>RGB</span> 199 / 160 / 106</div>
+          </div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: #E8DDC7;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Cream</div>
+          <div class="swatch-role">Body / reverse</div>
+          <div class="swatch-codes">
+            <div><span>HEX</span> #E8DDC7</div>
+            <div><span>RGB</span> 232 / 221 / 199</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="colour-usage">
+      <div class="usage-item">
+        <div class="usage-pct">70%</div>
+        <div class="usage-name">Mallard Green</div>
+        <p class="usage-desc">Dominates every surface. Backgrounds, signage substrate, packaging, dark mode digital. The brand's anchor.</p>
+      </div>
+      <div class="usage-item">
+        <div class="usage-pct">25%</div>
+        <div class="usage-name">Antique Gold</div>
+        <p class="usage-desc">All headings, prices, dividers, ornaments, the wordmark. Used with restraint to read as luxury rather than ostentation.</p>
+      </div>
+      <div class="usage-item">
+        <div class="usage-pct">5%</div>
+        <div class="usage-name">Cream</div>
+        <p class="usage-desc">Body copy on dark surfaces, descriptions, soft secondary information. Never used at the same weight as gold.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TYPOGRAPHY ===== -->
+<section class="block" id="type">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">03</span>
+      <span class="section-line"></span>
+      <span class="section-name">Typography</span>
+    </div>
+    <h2 class="section-title">A pairing of two voices</h2>
+    <p class="section-intro">Cormorant Garamond carries the soul of the brand — display, headings, prices, descriptions. Inter handles the operational copy in disciplined all-caps tracking. No third typeface.</p>
+
+    <div class="ua-summary">
+      <div class="ua-flag"><span class="ua-flag-mark"></span><span>Українською</span></div>
+      <p class="ua-text">Шрифти бренду — Cormorant Garamond для заголовків і опису, Inter для технічних підписів. Розміри та де який використовувати.</p>
+    </div>
+
+    <div class="type-stack">
+      <!-- Display -->
+      <div class="type-card">
+        <div>
+          <div class="type-meta-label">Display Typeface</div>
+          <div class="type-meta-name">Cormorant Garamond</div>
+          <p class="type-meta-role">The brand voice. All headlines, item names, prices, descriptive italic copy. A refined modern Garamond with high contrast and elegant terminals.</p>
+          <div class="type-weights">Regular 400 · Medium 500<br>Semibold 600 · Bold 700<br>Italic where shown</div>
+        </div>
+        <div>
+          <div class="type-specimen-display">Aa Mm 24</div>
+          <div class="type-specimen-italic">Authentic Italian, made fresh daily.</div>
+          <p class="type-specimen-body">Roma — Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze. Set in Cormorant Garamond at 21px italic for menu descriptions.</p>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div class="type-card">
+        <div>
+          <div class="type-meta-label">Support Typeface</div>
+          <div class="type-meta-name">Inter</div>
+          <p class="type-meta-role">For functional all-caps labelling, footer information, eyebrow tags, navigation, technical body copy. Always set with generous letter-spacing.</p>
+          <div class="type-weights">Light 300 · Regular 400<br>Medium 500 · Semibold 600</div>
+        </div>
+        <div>
+          <div class="type-specimen-caps">Panuozzo &amp; Sandwiches</div>
+          <div class="type-specimen-spec">Inter — letter-spacing 0.42em, 14px caps for sub-marks and section eyebrows.</div>
+          <div class="type-specimen-caps" style="font-size: 11px; letter-spacing: 0.5em; color: var(--gold-soft);">North Shields · Freshly Baked Daily</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Type Scale -->
+    <div class="scale-table">
+      <div class="scale-row scale-row-header">
+        <div>Role</div>
+        <div>Size</div>
+        <div>Specimen</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-name">Brand Mark</div>
+        <div class="scale-size">96–168px</div>
+        <div class="scale-sample" style="font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 56px; color: var(--gold); letter-spacing: 0.04em;">UNCLE'S</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-name">Section Title</div>
+        <div class="scale-size">38–46px</div>
+        <div class="scale-sample" style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 32px; color: var(--gold); letter-spacing: 0.32em; text-transform: uppercase;">Italian Coffee</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-name">Item Name</div>
+        <div class="scale-size">28–38px</div>
+        <div class="scale-sample" style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 28px; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase;">Roma</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-name">Description</div>
+        <div class="scale-size">19–22px italic</div>
+        <div class="scale-sample" style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 19px; color: var(--cream); opacity: 0.85;">Prosciutto crudo, stracciatella, fresh tomato</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-name">Eyebrow / Label</div>
+        <div class="scale-size">11–14px caps</div>
+        <div class="scale-sample" style="font-family: 'Inter', sans-serif; font-size: 12px; color: var(--gold); letter-spacing: 0.42em; text-transform: uppercase;">Premium Ingredients</div>
+      </div>
+      <div class="scale-row">
+        <div class="scale-name">Footer Meta</div>
+        <div class="scale-size">10–12px caps</div>
+        <div class="scale-sample" style="font-family: 'Inter', sans-serif; font-size: 10px; color: var(--gold-soft); letter-spacing: 0.4em; text-transform: uppercase;">North Shields</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== USAGE ===== -->
+<section class="block" id="usage">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">04</span>
+      <span class="section-line"></span>
+      <span class="section-name">Usage</span>
+    </div>
+    <h2 class="section-title">Basic Usage</h2>
+    <p class="section-intro">A short list of behaviours that protect the brand. Restraint is the operating principle — every piece should feel quiet and considered.</p>
+
+    <div class="ua-summary">
+      <div class="ua-flag"><span class="ua-flag-mark"></span><span>Українською</span></div>
+      <p class="ua-text">Прості правила — що робити і чого уникати, щоб бренд завжди виглядав узгоджено й преміально.</p>
+    </div>
+
+    <div class="do-dont-grid">
+      <div class="do-dont">
+        <div class="do-dont-header">
+          <span class="do-dont-mark do">✓</span>
+          <span class="do-dont-label">Do</span>
+        </div>
+        <ul>
+          <li>Set the wordmark in antique gold on mallard green wherever possible.</li>
+          <li>Pair Cormorant Garamond with Inter — these two only.</li>
+          <li>Use generous letter-spacing on all-caps Inter (0.32em–0.5em).</li>
+          <li>Keep ornaments (◆) small, sparse, and in gold.</li>
+          <li>Lead with mallard green as the dominant surface, gold as accent.</li>
+          <li>Treat italic Cormorant as the descriptive voice.</li>
+          <li>Maintain the cap-height clear space rule on all applications.</li>
+        </ul>
+      </div>
+      <div class="do-dont dont">
+        <div class="do-dont-header">
+          <span class="do-dont-mark dont">✕</span>
+          <span class="do-dont-label">Don't</span>
+        </div>
+        <ul>
+          <li>Use bright, saturated, or metallic shiny gold — only the muted tone.</li>
+          <li>Place the wordmark on busy or photographic backgrounds.</li>
+          <li>Mix in a third typeface, including system or generic sans-serifs.</li>
+          <li>Stack the sub-line above the wordmark or break the lockup.</li>
+          <li>Apply drop shadows, outlines, or gradients to the wordmark.</li>
+          <li>Use red, blue, or pure white as decorative colour.</li>
+          <li>Set body copy in Cormorant under 18px — use Inter instead.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MENU — INTERACTIVE ZONE FOR ROMA ===== -->
+<section class="block menu-block-section" id="menu">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">05</span>
+      <span class="section-line"></span>
+      <span class="section-name">Menu</span>
+      <span class="live-badge"><span class="live-badge-dot"></span>Interactive</span>
+    </div>
+    <h2 class="section-title">Roma — This is your zone</h2>
+    <p class="section-intro">An interactive copy of the Uncle's menu. Best-guess prices have been filled in already from previous menu drafts. Tap any price below to edit, then save the result as a PDF and send it back to Tom — that's the master menu we'll use to lock the screens, signage and any future printed work.</p>
+
+    <div class="ua-summary">
+      <div class="ua-flag"><span class="ua-flag-mark"></span><span>Українською</span></div>
+      <p class="ua-text"><strong style="color: var(--gold);">Це твоя робоча зона.</strong> Натисни на будь-яку ціну, щоб змінити її. Коли все буде правильно, натисни «Save as PDF» внизу і надішли мені файл. Це буде наше остаточне меню для екранів, вивісок і друку.</p>
+    </div>
+
+    <!-- Action callout — makes it unmistakable this is Roma's input area -->
+    <div class="action-callout">
+      <span class="corner-tl"></span>
+      <span class="corner-br"></span>
+      <div class="action-callout-eyebrow">
+        <span class="action-callout-pulse"></span>
+        Action Required · Дія потрібна
+      </div>
+      <div class="action-callout-title">Confirm your final prices</div>
+      <p class="action-callout-body">
+        Tap any price in the menu below to <strong>edit it</strong>. When you've reviewed every line, scroll to the bottom and tap <strong>Save as PDF</strong>. Send the file back to Tom on WhatsApp and we'll lock it in.
+      </p>
+      <div class="action-callout-ua">
+        <div class="action-callout-ua-flag"><span class="ua-flag-mark"></span><span>Українською</span></div>
+        Натисни на ціну, щоб <strong style="color: var(--gold); font-style: normal;">змінити її</strong>. Коли все перевіриш, прокрути донизу і натисни <strong style="color: var(--gold); font-style: normal;">«Save as PDF»</strong>. Надішли файл Тому в WhatsApp.
+      </div>
+      <svg class="action-arrow-down" viewBox="0 0 18 26" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9 2v22M9 24l-6-6M9 24l6-6"/>
+      </svg>
+    </div>
+
+    <div class="menu-wrap">
+
+      <!-- Instructions -->
+      <div class="menu-instructions">
+        <div class="menu-instructions-icon"><span>?</span></div>
+        <div class="menu-instructions-text">
+          Each price is <strong>tap to edit</strong>. Change anything that's wrong, then tap <strong>Save as PDF</strong> at the bottom and send it back. Tap <strong>Reset</strong> to restore the suggested defaults.
+          <br><br>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-style: normal; font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 4px;"><span style="display: inline-block; width: 14px; height: 10px; background: linear-gradient(to bottom, #0057B7 0%, #0057B7 50%, #FFD700 50%, #FFD700 100%); border-radius: 1px;"></span>Українською</span><br>
+          <span style="display: block; margin-top: 4px;">Натисни на ціну, щоб змінити. Натисни «Save as PDF» внизу, щоб зберегти. «Reset» — скинути ціни до запропонованих.</span>
+        </div>
+      </div>
+
+      <!-- Panuozzi -->
+      <div class="menu-block">
+        <div class="menu-block-head">
+          <span class="menu-block-line"></span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-title">Signature Panuozzi</span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-line right"></span>
+        </div>
+        <svg class="menu-laurel" viewBox="0 0 60 12">
+          <path d="M 4 6 Q 10 2, 16 6 Q 22 10, 26 6"/>
+          <circle cx="30" cy="6" r="1.4" class="dot"/>
+          <path d="M 34 6 Q 40 2, 46 6 Q 52 10, 56 6"/>
+        </svg>
+        <p class="menu-tagline">Freshly baked daily · premium ingredients</p>
+
+        <div class="pan-item">
+          <div class="pan-name">Roma</div>
+          <div class="pan-desc">Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze</div>
+          <div class="pan-prices">
+            <div class="pan-size"><div class="pan-size-label">Classico</div><div class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="roma-classico">£8.95</div></div>
+            <div class="pan-size"><div class="pan-size-label">Grande</div><div class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="roma-grande">£11.45</div></div>
+          </div>
+        </div>
+
+        <div class="pan-item">
+          <div class="pan-name">Milano</div>
+          <div class="pan-desc">Mortadella al pistachio, stracciatella, pistachio cream, crushed pistachios, rocket</div>
+          <div class="pan-prices">
+            <div class="pan-size"><div class="pan-size-label">Classico</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="milano-classico">£8.95</div></div>
+            <div class="pan-size"><div class="pan-size-label">Grande</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="milano-grande">£11.45</div></div>
+          </div>
+        </div>
+
+        <div class="pan-item">
+          <div class="pan-name">Palermo</div>
+          <div class="pan-desc">Spicy salami, fior di latte mozzarella, pesto, sun-dried tomatoes, roasted peppers, hot honey</div>
+          <div class="pan-prices">
+            <div class="pan-size"><div class="pan-size-label">Classico</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="palermo-classico">£8.95</div></div>
+            <div class="pan-size"><div class="pan-size-label">Grande</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="palermo-grande">£11.45</div></div>
+          </div>
+        </div>
+
+        <div class="pan-item">
+          <div class="pan-name">Rimini</div>
+          <div class="pan-desc">Roasted turkey, mozzarella, fresh tomato, pesto, caramelised onions, rocket</div>
+          <div class="pan-prices">
+            <div class="pan-size"><div class="pan-size-label">Classico</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="rimini-classico">£8.50</div></div>
+            <div class="pan-size"><div class="pan-size-label">Grande</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="rimini-grande">£11.50</div></div>
+          </div>
+        </div>
+
+        <div class="pan-item">
+          <div class="pan-name">Venezia</div>
+          <div class="pan-desc">Grilled Mediterranean vegetables, stracciatella, pesto, caramelised onions, roasted peppers, balsamic glaze</div>
+          <div class="pan-prices">
+            <div class="pan-size"><div class="pan-size-label">Classico</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="venezia-classico">£7.95</div></div>
+            <div class="pan-size"><div class="pan-size-label">Grande</div><div class="price-edit" contenteditable="true" inputmode="decimal" data-key="venezia-grande">£9.95</div></div>
+          </div>
+        </div>
+
+        <div class="dolce-box">
+          <div class="dolce-label">Sweet Panuozzo</div>
+          <div class="dolce-name">Dolce</div>
+          <div class="dolce-desc">Nutella &middot; <span class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="dolce-nutella">£5.95</span></div>
+          <div class="dolce-desc">Pistachio cream &middot; <span class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="dolce-pistachio">£5.95</span></div>
+        </div>
+      </div>
+
+      <!-- Coffee -->
+      <div class="menu-block">
+        <div class="menu-block-head">
+          <span class="menu-block-line"></span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-title">Italian Coffee</span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-line right"></span>
+        </div>
+        <svg class="menu-laurel" viewBox="0 0 60 12">
+          <path d="M 4 6 Q 10 2, 16 6 Q 22 10, 26 6"/>
+          <circle cx="30" cy="6" r="1.4" class="dot"/>
+          <path d="M 34 6 Q 40 2, 46 6 Q 52 10, 56 6"/>
+        </svg>
+
+        <div class="menu-row-list">
+          <div class="menu-row"><span class="menu-row-name">Espresso</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="espresso">£2.20</span></div>
+          <div class="menu-row"><span class="menu-row-name">Americano</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="americano">£2.80</span></div>
+          <div class="menu-row"><span class="menu-row-name">Cappuccino</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="cappuccino">£3.30</span></div>
+          <div class="menu-row"><span class="menu-row-name">Latte</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="latte">£3.30</span></div>
+          <div class="menu-row"><span class="menu-row-name">Flat White</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="flat-white">£3.30</span></div>
+        </div>
+      </div>
+
+      <!-- Drinks -->
+      <div class="menu-block">
+        <div class="menu-block-head">
+          <span class="menu-block-line"></span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-title">Drinks</span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-line right"></span>
+        </div>
+        <svg class="menu-laurel" viewBox="0 0 60 12">
+          <path d="M 4 6 Q 10 2, 16 6 Q 22 10, 26 6"/>
+          <circle cx="30" cy="6" r="1.4" class="dot"/>
+          <path d="M 34 6 Q 40 2, 46 6 Q 52 10, 56 6"/>
+        </svg>
+
+        <div class="menu-row-list">
+          <div class="menu-row"><span class="menu-row-name">Coca-Cola</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="coke">£1.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Fanta</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="fanta">£1.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Sprite</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="sprite">£1.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Water</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="water">£1.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">San Pellegrino Limonata</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="limonata">£2.20</span></div>
+          <div class="menu-row"><span class="menu-row-name">Aranciata Rossa</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="aranciata">£2.20</span></div>
+          <div class="menu-row"><span class="menu-row-name">Chinotto</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="chinotto">£2.20</span></div>
+        </div>
+      </div>
+
+      <!-- Extras -->
+      <div class="menu-block">
+        <div class="menu-block-head">
+          <span class="menu-block-line"></span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-title">Extras</span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-line right"></span>
+        </div>
+        <svg class="menu-laurel" viewBox="0 0 60 12">
+          <path d="M 4 6 Q 10 2, 16 6 Q 22 10, 26 6"/>
+          <circle cx="30" cy="6" r="1.4" class="dot"/>
+          <path d="M 34 6 Q 40 2, 46 6 Q 52 10, 56 6"/>
+        </svg>
+        <p class="menu-tagline">Add to any panuozzo</p>
+
+        <div class="menu-row-list">
+          <div class="menu-row"><span class="menu-row-name">Extra Mozzarella</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-mozz">£1.50</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Stracciatella</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-strac">£2.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Prosciutto Crudo</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-pros">£2.50</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Salami Piccante</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-sal">£2.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Mortadella</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-mort">£2.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Turkey</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-turk">£2.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Pistachio Cream</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-pist">£1.50</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Pesto</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-pesto">£1.00</span></div>
+          <div class="menu-row"><span class="menu-row-name">Extra Hot Honey</span><span class="menu-row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-hot">£1.00</span></div>
+        </div>
+      </div>
+
+      <!-- Desserts -->
+      <div class="menu-block">
+        <div class="menu-block-head">
+          <span class="menu-block-line"></span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-title">Desserts</span>
+          <span class="menu-block-diamond">◆</span>
+          <span class="menu-block-line right"></span>
+        </div>
+        <svg class="menu-laurel" viewBox="0 0 60 12">
+          <path d="M 4 6 Q 10 2, 16 6 Q 22 10, 26 6"/>
+          <circle cx="30" cy="6" r="1.4" class="dot"/>
+          <path d="M 34 6 Q 40 2, 46 6 Q 52 10, 56 6"/>
+        </svg>
+
+        <div class="menu-row-list">
+          <div class="dessert-item">
+            <div class="dessert-row">
+              <span class="dessert-name">Tiramisu</span>
+              <span class="price-edit" contenteditable="true" inputmode="decimal" data-key="tiramisu">£5.00</span>
+            </div>
+            <div class="dessert-desc">Classic Italian tiramisu, mascarpone, coffee, cacao</div>
+          </div>
+          <div class="dessert-item">
+            <div class="dessert-row">
+              <span class="dessert-name">Cannoli</span>
+              <span class="price-edit" contenteditable="true" inputmode="decimal" data-key="cannoli">£2.00</span>
+            </div>
+            <div class="dessert-desc">Ricotta, pistachio or chocolate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action -->
+      <div class="menu-action">
+        <svg class="menu-action-flourish" viewBox="0 0 70 12">
+          <line x1="2" y1="6" x2="22" y2="6"/>
+          <path d="M 22 6 Q 28 2, 34 6 Q 40 10, 46 6"/>
+          <line x1="46" y1="6" x2="68" y2="6"/>
+          <circle cx="34" cy="6" r="1.3" class="dot"/>
+        </svg>
+        <div class="menu-action-title">Confirm &amp; Send</div>
+        <div class="menu-action-sub">
+          When you're happy with every price, save this menu as a PDF and send it back to Tom.
+          <br>
+          <span style="display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-family: 'Inter', sans-serif; font-style: normal; font-size: 8px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold-soft);"><span style="display: inline-block; width: 14px; height: 10px; background: linear-gradient(to bottom, #0057B7 0%, #0057B7 50%, #FFD700 50%, #FFD700 100%); border-radius: 1px;"></span>Українською</span>
+          <br>
+          <span style="display: block; margin-top: 4px; font-size: 13px;">Коли всі ціни правильні, збережи меню як PDF і надішли Тому.</span>
+        </div>
+        <div class="menu-btn-row">
+          <button class="menu-btn" id="save-pdf">
+            <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+            Save as PDF
+          </button>
+          <button class="menu-btn secondary" id="reset">
+            <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.3M21 4v5h-5M21 12a9 9 0 0 1-15.5 6.3M3 20v-5h5"/></svg>
+            Reset Prices
+          </button>
+        </div>
+        <div class="menu-status" id="status"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-mark">UNCLE'S</div>
+    <div class="footer-meta">Brand Pack &amp; Menu · Master Document V1.0 · April 2026</div>
+    <div class="footer-credit">Prepared by Tom.Peacock.Design</div>
+  </div>
+</footer>
+
+<script>
+  // ============================================================
+  // MENU INTERACTION + PDF GENERATION
+  // ============================================================
+  const priceFields = document.querySelectorAll('.price-edit');
+  const defaults = {};
+
+  priceFields.forEach(el => {
+    defaults[el.dataset.key] = el.textContent;
+
+    el.addEventListener('focus', () => {
+      el.classList.remove('untouched');
+      requestAnimationFrame(() => {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      });
+    });
+
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        el.blur();
+      }
+    });
+
+    el.addEventListener('blur', () => {
+      let v = el.textContent.trim().replace(/[\n\r]/g, '');
+      if (v && !v.startsWith('£') && !v.startsWith('*')) {
+        v = '£' + v.replace(/^£?/, '');
+      }
+      el.textContent = v || defaults[el.dataset.key];
+    });
+  });
+
+  // Reset
+  document.getElementById('reset').addEventListener('click', () => {
+    if (!confirm('Reset all prices to the suggested defaults?')) return;
+    priceFields.forEach(el => {
+      el.textContent = defaults[el.dataset.key];
+    });
+    setStatus('Prices reset to suggested defaults.');
+  });
+
+  let statusTimer;
+  function setStatus(msg) {
+    const s = document.getElementById('status');
+    s.textContent = msg;
+    s.style.opacity = '1';
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => { s.style.opacity = '0'; }, 4000);
+  }
+
+  // PDF Generation
+  document.getElementById('save-pdf').addEventListener('click', async () => {
+    setStatus('Generating PDF…');
+
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
+
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+      const PW = 210, PH = 297;
+      const M = 18;
+      const GREEN = [19, 36, 29];
+      const GOLD = [199, 160, 106];
+      const GOLD_SOFT = [168, 134, 84];
+      const CREAM = [232, 221, 199];
+      const FAINT = [70, 90, 80];
+
+      function paintBackground() {
+        doc.setFillColor(...GREEN);
+        doc.rect(0, 0, PW, PH, 'F');
+        doc.setDrawColor(...GOLD);
+        doc.setLineWidth(0.2);
+        doc.rect(M - 6, M - 6, PW - 2 * (M - 6), PH - 2 * (M - 6));
+      }
+
+      paintBackground();
+      let y = M + 4;
+
+      doc.setTextColor(...GOLD_SOFT);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.text('MENU — V1.0 · CONFIRMED COPY', PW / 2, y, { align: 'center', charSpace: 1 });
+      y += 9;
+
+      doc.setTextColor(...GOLD);
+      doc.setFont('times', 'bold');
+      doc.setFontSize(36);
+      doc.text("UNCLE'S", PW / 2, y + 6, { align: 'center' });
+      y += 12;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text('PANUOZZO & SANDWICHES', PW / 2, y, { align: 'center', charSpace: 1.5 });
+      y += 3;
+
+      doc.setLineWidth(0.15);
+      doc.line(M + 30, y + 1, PW - M - 30, y + 1);
+      y += 6;
+
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(9);
+      doc.text('North Shields', PW / 2, y, { align: 'center' });
+      y += 7;
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+      doc.setTextColor(...GOLD_SOFT);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.text('Confirmed by Roma · ' + dateStr, PW / 2, y, { align: 'center', charSpace: 0.8 });
+      y += 8;
+
+      doc.setDrawColor(...GOLD);
+      doc.setLineWidth(0.2);
+      doc.line(M, y, PW - M, y);
+      y += 6;
+
+      function newPage() {
+        doc.addPage();
+        paintBackground();
+        y = M + 4;
+      }
+
+      function drawSectionTitle(title) {
+        if (y > PH - 35) newPage();
+        doc.setTextColor(...GOLD);
+        doc.setFont('times', 'normal');
+        doc.setFontSize(13);
+        doc.text(title.toUpperCase(), PW / 2, y, { align: 'center', charSpace: 1.8 });
+        y += 4;
+        doc.setLineWidth(0.1);
+        doc.setDrawColor(...GOLD);
+        doc.line(PW / 2 - 18, y, PW / 2 - 4, y);
+        doc.line(PW / 2 + 4, y, PW / 2 + 18, y);
+        const cx = PW / 2, cy = y;
+        doc.setFillColor(...GOLD);
+        doc.triangle(cx - 1, cy, cx, cy - 1, cx + 1, cy, 'F');
+        doc.triangle(cx - 1, cy, cx, cy + 1, cx + 1, cy, 'F');
+        y += 6;
+      }
+
+      function drawRow(name, price) {
+        if (y > PH - 25) newPage();
+        doc.setTextColor(...CREAM);
+        doc.setFont('times', 'normal');
+        doc.setFontSize(11);
+        doc.text(name, M, y);
+
+        doc.setTextColor(...GOLD);
+        doc.text(price, PW - M, y, { align: 'right' });
+
+        doc.setDrawColor(...FAINT);
+        doc.setLineWidth(0.1);
+        const startX = M + doc.getTextWidth(name) + 2;
+        const endX = PW - M - doc.getTextWidth(price) - 2;
+        if (endX > startX) {
+          doc.setLineDashPattern([0.5, 1], 0);
+          doc.line(startX, y - 1, endX, y - 1);
+          doc.setLineDashPattern([], 0);
+        }
+        y += 6;
+      }
+
+      function drawPanuozzo(name, desc, classico, grande) {
+        if (y > PH - 40) newPage();
+        doc.setTextColor(...GOLD);
+        doc.setFont('times', 'bold');
+        doc.setFontSize(13);
+        doc.text(name.toUpperCase(), M, y, { charSpace: 0.6 });
+        y += 5;
+
+        doc.setTextColor(...CREAM);
+        doc.setFont('times', 'italic');
+        doc.setFontSize(9.5);
+        const descLines = doc.splitTextToSize(desc, PW - 2 * M - 35);
+        descLines.forEach(line => {
+          doc.text(line, M, y);
+          y += 4.2;
+        });
+        y += 1;
+
+        doc.setTextColor(...GOLD_SOFT);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.text('CLASSICO', M, y, { charSpace: 1 });
+        doc.text('GRANDE', M + 38, y, { charSpace: 1 });
+        doc.setTextColor(...GOLD);
+        doc.setFont('times', 'normal');
+        doc.setFontSize(11);
+        doc.text(classico, M + 18, y);
+        doc.text(grande, M + 56, y);
+        y += 5;
+
+        doc.setDrawColor(...FAINT);
+        doc.setLineWidth(0.1);
+        doc.line(M, y, PW - M, y);
+        y += 5;
+      }
+
+      const p = (key) => document.querySelector(`[data-key="${key}"]`).textContent.trim();
+
+      drawSectionTitle('Signature Panuozzi');
+      drawPanuozzo('Roma', 'Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze', p('roma-classico'), p('roma-grande'));
+      drawPanuozzo('Milano', 'Mortadella al pistachio, stracciatella, pistachio cream, crushed pistachios, rocket', p('milano-classico'), p('milano-grande'));
+      drawPanuozzo('Palermo', 'Spicy salami, fior di latte mozzarella, pesto, sun-dried tomatoes, roasted peppers, hot honey', p('palermo-classico'), p('palermo-grande'));
+      drawPanuozzo('Rimini', 'Roasted turkey, mozzarella, fresh tomato, pesto, caramelised onions, rocket', p('rimini-classico'), p('rimini-grande'));
+      drawPanuozzo('Venezia', 'Grilled Mediterranean vegetables, stracciatella, pesto, caramelised onions, roasted peppers, balsamic glaze', p('venezia-classico'), p('venezia-grande'));
+
+      if (y > PH - 40) newPage();
+      const boxStart = y;
+      doc.setDrawColor(...GOLD);
+      doc.setLineWidth(0.15);
+      doc.setTextColor(...GOLD_SOFT);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.text('SWEET PANUOZZO', M + 4, y + 5, { charSpace: 1.2 });
+      doc.setTextColor(...GOLD);
+      doc.setFont('times', 'bold');
+      doc.setFontSize(13);
+      doc.text('DOLCE', M + 4, y + 11, { charSpace: 0.6 });
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(9.5);
+      doc.text('Sweet ricotta cream, pistachio cream, honey, crushed pistachios', M + 4, y + 17);
+      doc.setTextColor(...GOLD);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(12);
+      doc.text(p('dolce'), PW - M - 4, y + 12, { align: 'right' });
+      doc.rect(M, boxStart, PW - 2 * M, 22);
+      y = boxStart + 28;
+
+      drawSectionTitle('Italian Coffee');
+      drawRow('Espresso', p('espresso'));
+      drawRow('Americano', p('americano'));
+      drawRow('Cappuccino', p('cappuccino'));
+      drawRow('Latte', p('latte'));
+      drawRow('Flat White', p('flat-white'));
+      y += 4;
+
+      drawSectionTitle('Drinks');
+      drawRow('Coca-Cola', p('coke'));
+      drawRow('Fanta', p('fanta'));
+      drawRow('Sprite', p('sprite'));
+      drawRow('Water', p('water'));
+      drawRow('San Pellegrino Limonata', p('limonata'));
+      drawRow('Aranciata Rossa', p('aranciata'));
+      drawRow('Chinotto', p('chinotto'));
+      y += 4;
+
+      drawSectionTitle('Extras');
+      drawRow('Extra Mozzarella', p('x-mozz'));
+      drawRow('Extra Stracciatella', p('x-strac'));
+      drawRow('Extra Prosciutto Crudo', p('x-pros'));
+      drawRow('Extra Salami Piccante', p('x-sal'));
+      drawRow('Extra Mortadella', p('x-mort'));
+      drawRow('Extra Turkey', p('x-turk'));
+      drawRow('Extra Pistachio Cream', p('x-pist'));
+      drawRow('Extra Pesto', p('x-pesto'));
+      drawRow('Extra Hot Honey', p('x-hot'));
+      y += 4;
+
+      drawSectionTitle('Desserts');
+      drawRow('Tiramisu', p('tiramisu'));
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(8.5);
+      doc.text('Classic Italian tiramisu, mascarpone, coffee, cacao', M + 4, y);
+      y += 6;
+      drawRow('Cannoli', p('cannoli'));
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(8.5);
+      doc.text('Ricotta, pistachio or chocolate', M + 4, y);
+      y += 8;
+
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setTextColor(...GOLD_SOFT);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        doc.text("UNCLE'S · NORTH SHIELDS · NE30", PW / 2, PH - 8, { align: 'center', charSpace: 1.5 });
+        doc.setFont('times', 'italic');
+        doc.setFontSize(7);
+        doc.setTextColor(120, 100, 70);
+        doc.text(`Page ${i} of ${pageCount}`, PW - M, PH - 8, { align: 'right' });
+      }
+
+      const stamp = now.toISOString().slice(0, 10);
+      doc.save(`uncles-menu-confirmed-${stamp}.pdf`);
+      setStatus('PDF saved · send it to Tom by WhatsApp.');
+    } catch (err) {
+      console.error(err);
+      setStatus('Something went wrong generating the PDF. Try again.');
+    }
+  });
+</script>
+
+</body>
+</html>

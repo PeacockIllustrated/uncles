@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Uncle's — Menu Verification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --green-deep: #0E1914;
+    --green-base: #13241D;
+    --green-mid:  #1C2F26;
+    --gold:       #C7A06A;
+    --gold-soft:  #A88654;
+    --gold-faint: rgba(199, 160, 106, 0.22);
+    --gold-line:  rgba(199, 160, 106, 0.45);
+    --cream:      #E8DDC7;
+    --cream-soft: rgba(232, 221, 199, 0.7);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--cream);
+    background: var(--green-base);
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(28, 47, 38, 0.8) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 100%, rgba(14, 25, 20, 0.9) 0%, transparent 55%),
+      linear-gradient(180deg, var(--green-base) 0%, var(--green-deep) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    line-height: 1.5;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.63  0 0 0 0 0.42  0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    text-align: center;
+    padding: 56px 24px 36px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 18px;
+  }
+
+  .hero-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: clamp(56px, 16vw, 84px);
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    line-height: 0.95;
+    text-shadow: 0 4px 30px rgba(199, 160, 106, 0.18);
+  }
+
+  .hero-sub {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .sub-line {
+    height: 1px;
+    width: 40px;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  }
+
+  .sub-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .ornament {
+    color: var(--gold);
+    font-size: 9px;
+    opacity: 0.85;
+  }
+
+  .hero-meta {
+    margin-top: 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream-soft);
+  }
+
+  /* Decorative SVG ornament */
+  .hero-ornament {
+    margin: 22px auto 0;
+    display: block;
+    opacity: 0.7;
+  }
+  .hero-ornament path,
+  .hero-ornament line { stroke: var(--gold); stroke-width: 1; fill: none; }
+  .hero-ornament .filled { fill: var(--gold); stroke: none; }
+
+  /* ===== VERIFICATION BANNER ===== */
+  .verify-banner {
+    margin: 0 auto 28px;
+    max-width: 512px;
+    border: 1px solid var(--gold-line);
+    background: rgba(14, 25, 20, 0.55);
+    padding: 18px 22px;
+    border-radius: 2px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .verify-icon {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .verify-icon span {
+    transform: rotate(-45deg);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .verify-text { flex: 1; }
+
+  .verify-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .verify-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream-soft);
+    line-height: 1.55;
+  }
+
+  .verify-body strong {
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* ===== JUMP NAV ===== */
+  .jump-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(14, 25, 20, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--gold-faint);
+    border-bottom: 1px solid var(--gold-faint);
+    padding: 12px 0;
+    margin-bottom: 30px;
+  }
+
+  .jump-scroll {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 0 24px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .jump-scroll::-webkit-scrollbar { display: none; }
+
+  .jump-scroll a {
+    flex-shrink: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    text-decoration: none;
+    padding: 8px 14px;
+    border: 1px solid var(--gold-faint);
+    border-radius: 100px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .jump-scroll a:hover, .jump-scroll a:active {
+    color: var(--green-deep);
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* ===== SECTION ===== */
+  section.menu-section {
+    margin-bottom: 46px;
+    scroll-margin-top: 80px;
+    position: relative;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .section-line-l, .section-line-r {
+    flex: 1;
+    height: 1px;
+  }
+  .section-line-l { background: linear-gradient(90deg, transparent, var(--gold-faint) 30%, var(--gold) 100%); }
+  .section-line-r { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-faint) 70%, transparent); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 0.26em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .section-diamond {
+    color: var(--gold);
+    font-size: 10px;
+    transform: rotate(45deg);
+    display: inline-block;
+  }
+
+  /* small SVG flourish under section titles */
+  .section-laurel {
+    display: block;
+    margin: 0 auto 18px;
+    width: 70px;
+    height: 14px;
+    opacity: 0.75;
+  }
+  .section-laurel path,
+  .section-laurel line { stroke: var(--gold); stroke-width: 1; fill: none; stroke-linecap: round; }
+  .section-laurel .dot { fill: var(--gold); stroke: none; }
+
+  .section-tagline {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--cream-soft);
+    margin: 0 0 18px;
+    opacity: 0.8;
+  }
+
+  /* ===== EDITABLE PRICE ===== */
+  .price-edit {
+    display: inline-block;
+    border: 1px solid transparent;
+    padding: 2px 8px;
+    border-radius: 2px;
+    color: var(--gold);
+    background: transparent;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    cursor: text;
+    min-width: 60px;
+    text-align: center;
+    transition: border 0.15s, background 0.15s, box-shadow 0.15s;
+    outline: none;
+    letter-spacing: 0.02em;
+    position: relative;
+  }
+
+  .price-edit:hover {
+    border-color: var(--gold-faint);
+    background: rgba(199, 160, 106, 0.04);
+  }
+
+  .price-edit:focus {
+    border-color: var(--gold);
+    background: rgba(199, 160, 106, 0.08);
+    box-shadow: 0 0 0 2px rgba(199, 160, 106, 0.15);
+  }
+
+  /* edit hint pulse */
+  .price-edit.untouched::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -3px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: pulse-dot 2.4s ease-in-out 1.2s 2 forwards;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ===== PANUOZZI ITEM ===== */
+  .pan-item {
+    border-bottom: 1px solid var(--gold-faint);
+    padding: 22px 4px;
+    position: relative;
+  }
+  .pan-item:last-child { border-bottom: none; }
+
+  .pan-item::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 32px;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.4;
+  }
+
+  .pan-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .pan-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--cream);
+    opacity: 0.85;
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+
+  .pan-prices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .pan-size {
+    border: 1px solid var(--gold-faint);
+    background: rgba(14, 25, 20, 0.4);
+    padding: 12px 14px;
+    text-align: center;
+    border-radius: 2px;
+  }
+
+  .pan-size-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 6px;
+  }
+
+  .pan-size .price-edit {
+    font-size: 22px;
+  }
+
+  /* ===== DOLCE BOX ===== */
+  .dolce-box {
+    margin-top: 14px;
+    border: 1px solid var(--gold-line);
+    padding: 22px;
+    background: rgba(14, 25, 20, 0.5);
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .dolce-box::before, .dolce-box::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    background: var(--green-base);
+  }
+  .dolce-box::before { left: -4px; top: 50%; margin-top: -4px; }
+  .dolce-box::after  { right: -4px; top: 50%; margin-top: -4px; }
+
+  .dolce-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 8px;
+  }
+
+  .dolce-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .dolce-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--cream);
+    opacity: 0.85;
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+
+  .dolce-price-wrap {
+    text-align: center;
+    padding: 10px 0 4px;
+    border-top: 1px solid var(--gold-faint);
+  }
+
+  .dolce-price-wrap .price-edit {
+    font-size: 22px;
+  }
+
+  /* ===== SIMPLE ROW ===== */
+  .row-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 13px 4px;
+    border-bottom: 1px solid var(--gold-faint);
+    gap: 10px;
+  }
+  .row:last-child { border-bottom: none; }
+
+  .row-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--cream);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+
+  .row-dots {
+    flex: 1;
+    border-bottom: 1px dotted var(--gold-faint);
+    transform: translateY(-3px);
+    min-width: 20px;
+  }
+
+  .row .price-edit {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ===== DESSERT ROW ===== */
+  .dessert-item {
+    padding: 18px 4px;
+    border-bottom: 1px solid var(--gold-faint);
+  }
+  .dessert-item:last-child { border-bottom: none; }
+
+  .dessert-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+
+  .dessert-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .dessert-row .price-edit {
+    font-size: 20px;
+  }
+
+  .dessert-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    opacity: 0.78;
+    line-height: 1.4;
+  }
+
+  /* ===== ACTION BAR ===== */
+  .action-bar {
+    margin-top: 50px;
+    padding: 36px 24px;
+    background: rgba(14, 25, 20, 0.6);
+    border-top: 1px solid var(--gold-faint);
+    border-bottom: 1px solid var(--gold-faint);
+    text-align: center;
+    position: relative;
+  }
+
+  .action-flourish {
+    display: block;
+    margin: 0 auto 14px;
+    width: 80px;
+    height: 14px;
+    opacity: 0.7;
+  }
+  .action-flourish path,
+  .action-flourish line { stroke: var(--gold); stroke-width: 1; fill: none; stroke-linecap: round; }
+  .action-flourish .dot { fill: var(--gold); stroke: none; }
+
+  .action-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+
+  .action-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream-soft);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid var(--gold);
+    background: var(--gold);
+    color: var(--green-deep);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn:hover { background: transparent; color: var(--gold); }
+
+  .btn.secondary {
+    background: transparent;
+    color: var(--gold-soft);
+    border-color: var(--gold-faint);
+  }
+
+  .btn.secondary:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(199, 160, 106, 0.05);
+  }
+
+  .btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .save-status {
+    margin-top: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--gold-soft);
+    min-height: 18px;
+    transition: opacity 0.3s;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 40px 24px 50px;
+    text-align: center;
+  }
+
+  .footer-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .footer-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 18px;
+  }
+
+  .footer-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    flex-wrap: wrap;
+  }
+
+  .footer-credit {
+    margin-top: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--cream-soft);
+    opacity: 0.6;
+  }
+
+  /* desktop tweaks */
+  @media (min-width: 600px) {
+    .hero { padding: 80px 24px 50px; }
+    .container { padding: 0 32px; }
+    .pan-name { font-size: 30px; }
+    .dolce-name { font-size: 30px; }
+    .pan-desc, .dolce-desc { font-size: 16px; }
+    .row-name { font-size: 19px; }
+    .row .price-edit { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-eyebrow">Menu — V1.0 · Verification Copy</div>
+  <div class="hero-mark">UNCLE'S</div>
+  <div class="hero-sub">
+    <span class="sub-line"></span>
+    <span class="ornament">◆</span>
+    <span class="sub-text">Panuozzo &amp; Sandwiches</span>
+    <span class="ornament">◆</span>
+    <span class="sub-line"></span>
+  </div>
+  <div class="hero-meta">North Shields</div>
+
+  <!-- Subtle decorative scroll ornament -->
+  <svg class="hero-ornament" width="140" height="20" viewBox="0 0 140 20">
+    <line x1="0" y1="10" x2="42" y2="10"/>
+    <path d="M 42 10 Q 48 4, 54 10 Q 60 16, 66 10 Q 70 6, 74 10 Q 78 14, 82 10 Q 86 6, 92 10 Q 98 16, 104 10"/>
+    <line x1="98" y1="10" x2="140" y2="10"/>
+    <circle cx="70" cy="10" r="1.5" class="filled"/>
+  </svg>
+</section>
+
+<div class="container">
+
+  <!-- ===== VERIFICATION BANNER ===== -->
+  <div class="verify-banner">
+    <div class="verify-icon"><span>?</span></div>
+    <div class="verify-text">
+      <div class="verify-title">For Roma — Please Verify</div>
+      <div class="verify-body">
+        Each price is <strong>tap to edit</strong>. Best-guess prices are filled in already from our previous menus, change anything that's wrong, then tap <strong>Save as PDF</strong> at the bottom and send it back.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== JUMP NAV ===== -->
+<nav class="jump-nav">
+  <div class="jump-scroll">
+    <a href="#panuozzi">Panuozzi</a>
+    <a href="#coffee">Coffee</a>
+    <a href="#drinks">Drinks</a>
+    <a href="#extras">Extras</a>
+    <a href="#desserts">Desserts</a>
+  </div>
+</nav>
+
+<div class="container" id="menu-content">
+
+  <!-- ===== PANUOZZI ===== -->
+  <section class="menu-section" id="panuozzi">
+    <div class="section-head">
+      <span class="section-line-l"></span>
+      <span class="section-diamond">◆</span>
+      <span class="section-title">Signature Panuozzi</span>
+      <span class="section-diamond">◆</span>
+      <span class="section-line-r"></span>
+    </div>
+    <svg class="section-laurel" viewBox="0 0 70 14">
+      <path d="M 5 7 Q 12 3, 18 7 Q 24 11, 30 7"/>
+      <circle cx="35" cy="7" r="1.6" class="dot"/>
+      <path d="M 40 7 Q 46 3, 52 7 Q 58 11, 65 7"/>
+    </svg>
+    <p class="section-tagline">Freshly baked daily · premium ingredients</p>
+
+    <div class="panuozzi-list">
+
+      <div class="pan-item">
+        <div class="pan-name">Roma</div>
+        <div class="pan-desc">Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze</div>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="roma-classico">£8.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="roma-grande">£11.45</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pan-item">
+        <div class="pan-name">Milano</div>
+        <div class="pan-desc">Mortadella al pistachio, stracciatella, pistachio cream, crushed pistachios, rocket</div>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="milano-classico">£8.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="milano-grande">£11.45</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pan-item">
+        <div class="pan-name">Palermo</div>
+        <div class="pan-desc">Spicy salami, fior di latte mozzarella, pesto, sun-dried tomatoes, roasted peppers, hot honey</div>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="palermo-classico">£8.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="palermo-grande">£11.45</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pan-item">
+        <div class="pan-name">Rimini</div>
+        <div class="pan-desc">Roasted turkey, mozzarella, fresh tomato, pesto, caramelised onions, rocket</div>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="rimini-classico">£8.50</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="rimini-grande">£11.50</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pan-item">
+        <div class="pan-name">Venezia</div>
+        <div class="pan-desc">Grilled Mediterranean vegetables, stracciatella, pesto, caramelised onions, roasted peppers, balsamic glaze</div>
+        <div class="pan-prices">
+          <div class="pan-size">
+            <div class="pan-size-label">Classico</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="venezia-classico">£7.95</div>
+          </div>
+          <div class="pan-size">
+            <div class="pan-size-label">Grande</div>
+            <div class="price-edit" contenteditable="true" inputmode="decimal" data-key="venezia-grande">£9.95</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DOLCE -->
+    <div class="dolce-box">
+      <div class="dolce-label">Sweet Panuozzo</div>
+      <div class="dolce-name">Dolce</div>
+      <div class="dolce-desc">Nutella &middot; <span class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="dolce-nutella">£5.95</span></div>
+      <div class="dolce-desc">Pistachio cream &middot; <span class="price-edit untouched" contenteditable="true" inputmode="decimal" data-key="dolce-pistachio">£5.95</span></div>
+    </div>
+  </section>
+
+  <!-- ===== COFFEE ===== -->
+  <section class="menu-section" id="coffee">
+    <div class="section-head">
+      <span class="section-line-l"></span>
+      <span class="section-diamond">◆</span>
+      <span class="section-title">Italian Coffee</span>
+      <span class="section-diamond">◆</span>
+      <span class="section-line-r"></span>
+    </div>
+    <svg class="section-laurel" viewBox="0 0 70 14">
+      <path d="M 5 7 Q 12 3, 18 7 Q 24 11, 30 7"/>
+      <circle cx="35" cy="7" r="1.6" class="dot"/>
+      <path d="M 40 7 Q 46 3, 52 7 Q 58 11, 65 7"/>
+    </svg>
+
+    <div class="row-list">
+      <div class="row"><span class="row-name">Espresso</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="espresso">£2.20</span></div>
+      <div class="row"><span class="row-name">Americano</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="americano">£2.80</span></div>
+      <div class="row"><span class="row-name">Cappuccino</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="cappuccino">£3.30</span></div>
+      <div class="row"><span class="row-name">Latte</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="latte">£3.30</span></div>
+      <div class="row"><span class="row-name">Flat White</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="flat-white">£3.30</span></div>
+    </div>
+  </section>
+
+  <!-- ===== DRINKS ===== -->
+  <section class="menu-section" id="drinks">
+    <div class="section-head">
+      <span class="section-line-l"></span>
+      <span class="section-diamond">◆</span>
+      <span class="section-title">Drinks</span>
+      <span class="section-diamond">◆</span>
+      <span class="section-line-r"></span>
+    </div>
+    <svg class="section-laurel" viewBox="0 0 70 14">
+      <path d="M 5 7 Q 12 3, 18 7 Q 24 11, 30 7"/>
+      <circle cx="35" cy="7" r="1.6" class="dot"/>
+      <path d="M 40 7 Q 46 3, 52 7 Q 58 11, 65 7"/>
+    </svg>
+
+    <div class="row-list">
+      <div class="row"><span class="row-name">Coca-Cola</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="coke">£1.00</span></div>
+      <div class="row"><span class="row-name">Fanta</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="fanta">£1.00</span></div>
+      <div class="row"><span class="row-name">Sprite</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="sprite">£1.00</span></div>
+      <div class="row"><span class="row-name">Water</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="water">£1.00</span></div>
+      <div class="row"><span class="row-name">San Pellegrino Limonata</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="limonata">£2.20</span></div>
+      <div class="row"><span class="row-name">Aranciata Rossa</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="aranciata">£2.20</span></div>
+      <div class="row"><span class="row-name">Chinotto</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="chinotto">£2.20</span></div>
+    </div>
+  </section>
+
+  <!-- ===== EXTRAS ===== -->
+  <section class="menu-section" id="extras">
+    <div class="section-head">
+      <span class="section-line-l"></span>
+      <span class="section-diamond">◆</span>
+      <span class="section-title">Extras</span>
+      <span class="section-diamond">◆</span>
+      <span class="section-line-r"></span>
+    </div>
+    <svg class="section-laurel" viewBox="0 0 70 14">
+      <path d="M 5 7 Q 12 3, 18 7 Q 24 11, 30 7"/>
+      <circle cx="35" cy="7" r="1.6" class="dot"/>
+      <path d="M 40 7 Q 46 3, 52 7 Q 58 11, 65 7"/>
+    </svg>
+    <p class="section-tagline">Add to any panuozzo</p>
+
+    <div class="row-list">
+      <div class="row"><span class="row-name">Extra Mozzarella</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-mozz">£1.50</span></div>
+      <div class="row"><span class="row-name">Extra Stracciatella</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-strac">£2.00</span></div>
+      <div class="row"><span class="row-name">Extra Prosciutto Crudo</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-pros">£2.50</span></div>
+      <div class="row"><span class="row-name">Extra Salami Piccante</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-sal">£1.80</span></div>
+      <div class="row"><span class="row-name">Extra Mortadella</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-mort">£2.00</span></div>
+      <div class="row"><span class="row-name">Extra Turkey</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-turk">£1.80</span></div>
+      <div class="row"><span class="row-name">Extra Pistachio Cream</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-pist">£1.50</span></div>
+      <div class="row"><span class="row-name">Extra Pesto</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-pesto">£1.00</span></div>
+      <div class="row"><span class="row-name">Extra Hot Honey</span><span class="row-dots"></span><span class="price-edit" contenteditable="true" inputmode="decimal" data-key="x-hot">£1.00</span></div>
+    </div>
+  </section>
+
+  <!-- ===== DESSERTS ===== -->
+  <section class="menu-section" id="desserts">
+    <div class="section-head">
+      <span class="section-line-l"></span>
+      <span class="section-diamond">◆</span>
+      <span class="section-title">Desserts</span>
+      <span class="section-diamond">◆</span>
+      <span class="section-line-r"></span>
+    </div>
+    <svg class="section-laurel" viewBox="0 0 70 14">
+      <path d="M 5 7 Q 12 3, 18 7 Q 24 11, 30 7"/>
+      <circle cx="35" cy="7" r="1.6" class="dot"/>
+      <path d="M 40 7 Q 46 3, 52 7 Q 58 11, 65 7"/>
+    </svg>
+
+    <div class="row-list">
+      <div class="dessert-item">
+        <div class="dessert-row">
+          <span class="dessert-name">Tiramisu</span>
+          <span class="price-edit" contenteditable="true" inputmode="decimal" data-key="tiramisu">£5.00</span>
+        </div>
+        <div class="dessert-desc">Classic Italian tiramisu, mascarpone, coffee, cacao</div>
+      </div>
+      <div class="dessert-item">
+        <div class="dessert-row">
+          <span class="dessert-name">Cannoli</span>
+          <span class="price-edit" contenteditable="true" inputmode="decimal" data-key="cannoli">£2.00</span>
+        </div>
+        <div class="dessert-desc">Ricotta, pistachio or chocolate</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== ACTION BAR ===== -->
+<div class="action-bar">
+  <svg class="action-flourish" viewBox="0 0 80 14">
+    <line x1="2" y1="7" x2="28" y2="7"/>
+    <path d="M 28 7 Q 34 2, 40 7 Q 46 12, 52 7"/>
+    <line x1="52" y1="7" x2="78" y2="7"/>
+    <circle cx="40" cy="7" r="1.4" class="dot"/>
+  </svg>
+  <div class="action-title">Confirm &amp; Send</div>
+  <div class="action-sub">When you're happy with every price, save this menu as a PDF and send it back to Tom.</div>
+  <div class="btn-row">
+    <button class="btn" id="save-pdf">
+      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+      Save as PDF
+    </button>
+    <button class="btn secondary" id="reset">
+      <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.3M21 4v5h-5M21 12a9 9 0 0 1-15.5 6.3M3 20v-5h5"/></svg>
+      Reset Prices
+    </button>
+  </div>
+  <div class="save-status" id="status"></div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-mark">UNCLE'S</div>
+  <div class="footer-meta">North Shields · NE30</div>
+  <div class="footer-strip">
+    <span>Freshly Baked Daily</span>
+    <span class="ornament">◆</span>
+    <span>Premium Ingredients</span>
+  </div>
+  <div class="footer-credit">Menu V1.0 · April 2026</div>
+</footer>
+
+<script>
+  const priceFields = document.querySelectorAll('.price-edit');
+  const defaults = {};
+
+  priceFields.forEach(el => {
+    defaults[el.dataset.key] = el.textContent;
+
+    el.addEventListener('focus', () => {
+      el.classList.remove('untouched');
+      requestAnimationFrame(() => {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      });
+    });
+
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        el.blur();
+      }
+    });
+
+    el.addEventListener('blur', () => {
+      let v = el.textContent.trim().replace(/[\n\r]/g, '');
+      if (v && !v.startsWith('£') && !v.startsWith('*')) {
+        v = '£' + v.replace(/^£?/, '');
+      }
+      el.textContent = v || defaults[el.dataset.key];
+    });
+  });
+
+  // Reset
+  document.getElementById('reset').addEventListener('click', () => {
+    if (!confirm('Reset all prices to the suggested defaults?')) return;
+    priceFields.forEach(el => {
+      el.textContent = defaults[el.dataset.key];
+    });
+    setStatus('Prices reset to suggested defaults.');
+  });
+
+  let statusTimer;
+  function setStatus(msg) {
+    const s = document.getElementById('status');
+    s.textContent = msg;
+    s.style.opacity = '1';
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => { s.style.opacity = '0'; }, 4000);
+  }
+
+  // PDF Generation
+  document.getElementById('save-pdf').addEventListener('click', async () => {
+    setStatus('Generating PDF…');
+
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
+
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+      const PW = 210, PH = 297;
+      const M = 18;
+      const GREEN = [19, 36, 29];
+      const GOLD = [199, 160, 106];
+      const GOLD_SOFT = [168, 134, 84];
+      const CREAM = [232, 221, 199];
+      const FAINT = [70, 90, 80];
+
+      function paintBackground() {
+        doc.setFillColor(...GREEN);
+        doc.rect(0, 0, PW, PH, 'F');
+        doc.setDrawColor(...GOLD);
+        doc.setLineWidth(0.2);
+        doc.rect(M - 6, M - 6, PW - 2 * (M - 6), PH - 2 * (M - 6));
+      }
+
+      paintBackground();
+      let y = M + 4;
+
+      // Header
+      doc.setTextColor(...GOLD_SOFT);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.text('MENU — V1.0 · CONFIRMED COPY', PW / 2, y, { align: 'center', charSpace: 1 });
+      y += 9;
+
+      doc.setTextColor(...GOLD);
+      doc.setFont('times', 'bold');
+      doc.setFontSize(36);
+      doc.text("UNCLE'S", PW / 2, y + 6, { align: 'center' });
+      y += 12;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text('PANUOZZO & SANDWICHES', PW / 2, y, { align: 'center', charSpace: 1.5 });
+      y += 3;
+
+      doc.setLineWidth(0.15);
+      doc.line(M + 30, y + 1, PW - M - 30, y + 1);
+      y += 6;
+
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(9);
+      doc.text('North Shields', PW / 2, y, { align: 'center' });
+      y += 7;
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+      doc.setTextColor(...GOLD_SOFT);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.text('Confirmed by Roma · ' + dateStr, PW / 2, y, { align: 'center', charSpace: 0.8 });
+      y += 8;
+
+      doc.setDrawColor(...GOLD);
+      doc.setLineWidth(0.2);
+      doc.line(M, y, PW - M, y);
+      y += 6;
+
+      function newPage() {
+        doc.addPage();
+        paintBackground();
+        y = M + 4;
+      }
+
+      function drawSectionTitle(title) {
+        if (y > PH - 35) newPage();
+        doc.setTextColor(...GOLD);
+        doc.setFont('times', 'normal');
+        doc.setFontSize(13);
+        doc.text(title.toUpperCase(), PW / 2, y, { align: 'center', charSpace: 1.8 });
+        y += 4;
+        doc.setLineWidth(0.1);
+        doc.setDrawColor(...GOLD);
+        doc.line(PW / 2 - 18, y, PW / 2 - 4, y);
+        doc.line(PW / 2 + 4, y, PW / 2 + 18, y);
+        const cx = PW / 2, cy = y;
+        doc.setFillColor(...GOLD);
+        doc.triangle(cx - 1, cy, cx, cy - 1, cx + 1, cy, 'F');
+        doc.triangle(cx - 1, cy, cx, cy + 1, cx + 1, cy, 'F');
+        y += 6;
+      }
+
+      function drawRow(name, price) {
+        if (y > PH - 25) newPage();
+        doc.setTextColor(...CREAM);
+        doc.setFont('times', 'normal');
+        doc.setFontSize(11);
+        doc.text(name, M, y);
+
+        doc.setTextColor(...GOLD);
+        doc.text(price, PW - M, y, { align: 'right' });
+
+        doc.setDrawColor(...FAINT);
+        doc.setLineWidth(0.1);
+        const startX = M + doc.getTextWidth(name) + 2;
+        const endX = PW - M - doc.getTextWidth(price) - 2;
+        if (endX > startX) {
+          doc.setLineDashPattern([0.5, 1], 0);
+          doc.line(startX, y - 1, endX, y - 1);
+          doc.setLineDashPattern([], 0);
+        }
+        y += 6;
+      }
+
+      function drawPanuozzo(name, desc, classico, grande) {
+        if (y > PH - 40) newPage();
+        doc.setTextColor(...GOLD);
+        doc.setFont('times', 'bold');
+        doc.setFontSize(13);
+        doc.text(name.toUpperCase(), M, y, { charSpace: 0.6 });
+        y += 5;
+
+        doc.setTextColor(...CREAM);
+        doc.setFont('times', 'italic');
+        doc.setFontSize(9.5);
+        const descLines = doc.splitTextToSize(desc, PW - 2 * M - 35);
+        descLines.forEach(line => {
+          doc.text(line, M, y);
+          y += 4.2;
+        });
+        y += 1;
+
+        doc.setTextColor(...GOLD_SOFT);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.text('CLASSICO', M, y, { charSpace: 1 });
+        doc.text('GRANDE', M + 38, y, { charSpace: 1 });
+        doc.setTextColor(...GOLD);
+        doc.setFont('times', 'normal');
+        doc.setFontSize(11);
+        doc.text(classico, M + 18, y);
+        doc.text(grande, M + 56, y);
+        y += 5;
+
+        doc.setDrawColor(...FAINT);
+        doc.setLineWidth(0.1);
+        doc.line(M, y, PW - M, y);
+        y += 5;
+      }
+
+      const p = (key) => document.querySelector(`[data-key="${key}"]`).textContent.trim();
+
+      // PANUOZZI
+      drawSectionTitle('Signature Panuozzi');
+      drawPanuozzo('Roma', 'Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze', p('roma-classico'), p('roma-grande'));
+      drawPanuozzo('Milano', 'Mortadella al pistachio, stracciatella, pistachio cream, crushed pistachios, rocket', p('milano-classico'), p('milano-grande'));
+      drawPanuozzo('Palermo', 'Spicy salami, fior di latte mozzarella, pesto, sun-dried tomatoes, roasted peppers, hot honey', p('palermo-classico'), p('palermo-grande'));
+      drawPanuozzo('Rimini', 'Roasted turkey, mozzarella, fresh tomato, pesto, caramelised onions, rocket', p('rimini-classico'), p('rimini-grande'));
+      drawPanuozzo('Venezia', 'Grilled Mediterranean vegetables, stracciatella, pesto, caramelised onions, roasted peppers, balsamic glaze', p('venezia-classico'), p('venezia-grande'));
+
+      // Dolce
+      if (y > PH - 40) newPage();
+      const boxStart = y;
+      doc.setDrawColor(...GOLD);
+      doc.setLineWidth(0.15);
+      doc.setTextColor(...GOLD_SOFT);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.text('SWEET PANUOZZO', M + 4, y + 5, { charSpace: 1.2 });
+      doc.setTextColor(...GOLD);
+      doc.setFont('times', 'bold');
+      doc.setFontSize(13);
+      doc.text('DOLCE', M + 4, y + 11, { charSpace: 0.6 });
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(9.5);
+      doc.text('Sweet ricotta cream, pistachio cream, honey, crushed pistachios', M + 4, y + 17);
+      doc.setTextColor(...GOLD);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(12);
+      doc.text(p('dolce'), PW - M - 4, y + 12, { align: 'right' });
+      doc.rect(M, boxStart, PW - 2 * M, 22);
+      y = boxStart + 28;
+
+      // COFFEE
+      drawSectionTitle('Italian Coffee');
+      drawRow('Espresso', p('espresso'));
+      drawRow('Americano', p('americano'));
+      drawRow('Cappuccino', p('cappuccino'));
+      drawRow('Latte', p('latte'));
+      drawRow('Flat White', p('flat-white'));
+      y += 4;
+
+      // DRINKS
+      drawSectionTitle('Drinks');
+      drawRow('Coca-Cola', p('coke'));
+      drawRow('Fanta', p('fanta'));
+      drawRow('Sprite', p('sprite'));
+      drawRow('Water', p('water'));
+      drawRow('San Pellegrino Limonata', p('limonata'));
+      drawRow('Aranciata Rossa', p('aranciata'));
+      drawRow('Chinotto', p('chinotto'));
+      y += 4;
+
+      // EXTRAS
+      drawSectionTitle('Extras');
+      drawRow('Extra Mozzarella', p('x-mozz'));
+      drawRow('Extra Stracciatella', p('x-strac'));
+      drawRow('Extra Prosciutto Crudo', p('x-pros'));
+      drawRow('Extra Salami Piccante', p('x-sal'));
+      drawRow('Extra Mortadella', p('x-mort'));
+      drawRow('Extra Turkey', p('x-turk'));
+      drawRow('Extra Pistachio Cream', p('x-pist'));
+      drawRow('Extra Pesto', p('x-pesto'));
+      drawRow('Extra Hot Honey', p('x-hot'));
+      y += 4;
+
+      // DESSERTS
+      drawSectionTitle('Desserts');
+      drawRow('Tiramisu', p('tiramisu'));
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(8.5);
+      doc.text('Classic Italian tiramisu, mascarpone, coffee, cacao', M + 4, y);
+      y += 6;
+      drawRow('Cannoli', p('cannoli'));
+      doc.setTextColor(...CREAM);
+      doc.setFont('times', 'italic');
+      doc.setFontSize(8.5);
+      doc.text('Ricotta, pistachio or chocolate', M + 4, y);
+      y += 8;
+
+      // Footer on every page
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setTextColor(...GOLD_SOFT);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        doc.text("UNCLE'S · NORTH SHIELDS · NE30", PW / 2, PH - 8, { align: 'center', charSpace: 1.5 });
+        doc.setFont('times', 'italic');
+        doc.setFontSize(7);
+        doc.setTextColor(120, 100, 70);
+        doc.text(`Page ${i} of ${pageCount}`, PW - M, PH - 8, { align: 'right' });
+      }
+
+      const stamp = now.toISOString().slice(0, 10);
+      doc.save(`uncles-menu-confirmed-${stamp}.pdf`);
+      setStatus('PDF saved · send it to Tom by WhatsApp.');
+    } catch (err) {
+      console.error(err);
+      setStatus('Something went wrong generating the PDF. Try again.');
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+{
+  "sections": [
+    {
+      "slug": "panuozzi",
+      "title": "Signature Panuozzi",
+      "tagline": "Choose Classico or Grande",
+      "display_order": 10,
+      "visible": true,
+      "layout_hint": "list",
+      "items": [
+        {
+          "slug": "roma",
+          "name": "Roma",
+          "description": "Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze",
+          "display_order": 10,
+          "available": true,
+          "is_feature": false,
+          "sizes": [
+            { "size_label": "Classico", "display_order": 10, "price_pence": 850 },
+            { "size_label": "Grande",   "display_order": 20, "price_pence": 1150 }
+          ]
+        },
+        {
+          "slug": "milano",
+          "name": "Milano",
+          "description": "Mortadella al pistachio, stracciatella, pistachio cream, crushed pistachios, rocket",
+          "display_order": 20,
+          "available": true,
+          "is_feature": false,
+          "sizes": [
+            { "size_label": "Classico", "display_order": 10, "price_pence": 890 },
+            { "size_label": "Grande",   "display_order": 20, "price_pence": 1195 }
+          ]
+        },
+        {
+          "slug": "palermo",
+          "name": "Palermo",
+          "description": "Spicy salami, fior di latte mozzarella, pesto, sun-dried tomatoes, roasted peppers, hot honey",
+          "display_order": 30,
+          "available": true,
+          "is_feature": false,
+          "sizes": [
+            { "size_label": "Classico", "display_order": 10, "price_pence": 895 },
+            { "size_label": "Grande",   "display_order": 20, "price_pence": 1195 }
+          ]
+        },
+        {
+          "slug": "rimini",
+          "name": "Rimini",
+          "description": "Italian roast turkey, mozzarella, fresh tomato, pesto, caramelised onions, rocket",
+          "display_order": 40,
+          "available": true,
+          "is_feature": false,
+          "sizes": [
+            { "size_label": "Classico", "display_order": 10, "price_pence": 830 },
+            { "size_label": "Grande",   "display_order": 20, "price_pence": 1150 }
+          ]
+        },
+        {
+          "slug": "venezia",
+          "name": "Venezia",
+          "description": "Grilled Mediterranean vegetables, stracciatella, pesto, caramelised onions, roasted peppers, balsamic glaze",
+          "display_order": 50,
+          "available": true,
+          "is_feature": false,
+          "sizes": [
+            { "size_label": "Classico", "display_order": 10, "price_pence": 795 },
+            { "size_label": "Grande",   "display_order": 20, "price_pence": 995 }
+          ]
+        },
+        {
+          "slug": "dolce",
+          "name": "Dolce",
+          "description": "Sweet panuozzo · choose your filling",
+          "display_order": 60,
+          "available": true,
+          "is_feature": true,
+          "sizes": [
+            { "size_label": "Nutella",   "display_order": 10, "price_pence": 550, "note": "Nutella" },
+            { "size_label": "Pistachio", "display_order": 20, "price_pence": 595, "note": "Pistachio cream" }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "coffee",
+      "title": "Italian Coffee",
+      "tagline": null,
+      "display_order": 20,
+      "visible": true,
+      "layout_hint": "list",
+      "items": [
+        { "slug": "espresso",   "name": "Espresso",   "description": null, "display_order": 10, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 220 }] },
+        { "slug": "americano",  "name": "Americano",  "description": null, "display_order": 20, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 280 }] },
+        { "slug": "cappuccino", "name": "Cappuccino", "description": null, "display_order": 30, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 330 }] },
+        { "slug": "latte",      "name": "Latte",      "description": null, "display_order": 40, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 330 }] },
+        { "slug": "flat-white", "name": "Flat White", "description": null, "display_order": 50, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 330 }] }
+      ]
+    },
+    {
+      "slug": "bakery",
+      "title": "Bakery",
+      "tagline": "Freshly baked daily",
+      "display_order": 25,
+      "visible": true,
+      "layout_hint": "list",
+      "items": [
+        { "slug": "plain-croissant",     "name": "Plain Croissant",     "description": null, "display_order": 10, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 275 }] },
+        { "slug": "nutella-croissant",   "name": "Nutella Croissant",   "description": null, "display_order": 20, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 350 }] },
+        { "slug": "pistachio-croissant", "name": "Pistachio Croissant", "description": null, "display_order": 30, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 395 }] }
+      ]
+    },
+    {
+      "slug": "drinks",
+      "title": "Water & Drinks",
+      "tagline": null,
+      "display_order": 30,
+      "visible": true,
+      "layout_hint": "list",
+      "items": [
+        { "slug": "still-water",            "name": "Still Water",                 "description": null, "display_order": 10, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 100 }] },
+        { "slug": "soft-cans",              "name": "Coca-Cola · Fanta · Sprite",  "description": null, "display_order": 20, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 100 }] },
+        { "slug": "san-pellegrino-sparkling", "name": "San Pellegrino Sparkling",  "description": null, "display_order": 30, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 150 }] },
+        { "slug": "san-pellegrino-cans",    "name": "San Pellegrino Cans",         "description": null, "display_order": 40, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 220 }] }
+      ]
+    },
+    {
+      "slug": "extras",
+      "title": "Extras",
+      "tagline": "Add to any panuozzo · Classico or Grande",
+      "display_order": 40,
+      "visible": true,
+      "layout_hint": "grid",
+      "items": [
+        { "slug": "mozzarella",             "name": "Mozzarella",             "description": null, "display_order": 10, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 150 }, { "size_label": "Grande", "display_order": 20, "price_pence": 200 }] },
+        { "slug": "stracciatella",          "name": "Stracciatella",          "description": null, "display_order": 20, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 180 }, { "size_label": "Grande", "display_order": 20, "price_pence": 250 }] },
+        { "slug": "mortadella",             "name": "Mortadella",             "description": null, "display_order": 30, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 200 }, { "size_label": "Grande", "display_order": 20, "price_pence": 300 }] },
+        { "slug": "spicy-salami",           "name": "Spicy Salami",           "description": null, "display_order": 40, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 200 }, { "size_label": "Grande", "display_order": 20, "price_pence": 300 }] },
+        { "slug": "turkey",                 "name": "Turkey",                 "description": null, "display_order": 50, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 200 }, { "size_label": "Grande", "display_order": 20, "price_pence": 300 }] },
+        { "slug": "prosciutto-cotto",       "name": "Prosciutto Cotto",       "description": null, "display_order": 60, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 200 }, { "size_label": "Grande", "display_order": 20, "price_pence": 250 }] },
+        { "slug": "prosciutto-crudo",       "name": "Prosciutto Crudo",       "description": null, "display_order": 70, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 250 }, { "size_label": "Grande", "display_order": 20, "price_pence": 300 }] },
+        { "slug": "premium-prosciutto-crudo", "name": "Premium Prosciutto Crudo", "description": null, "display_order": 80, "available": true, "is_feature": false, "sizes": [{ "size_label": "Classico", "display_order": 10, "price_pence": 300 }, { "size_label": "Grande", "display_order": 20, "price_pence": 400 }] },
+        { "slug": "extras-veg",             "name": "Roasted Peppers · Caramelised Onions · Rocket", "description": null, "display_order": 90, "available": true, "is_feature": false, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 100 }] }
+      ]
+    },
+    {
+      "slug": "desserts",
+      "title": "Desserts",
+      "tagline": null,
+      "display_order": 50,
+      "visible": true,
+      "layout_hint": "feature",
+      "items": [
+        { "slug": "tiramisu",         "name": "Tiramisu",         "description": "Mascarpone, coffee, cacao",        "display_order": 10, "available": true, "is_feature": true, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 500 }] },
+        { "slug": "sfogliatella",     "name": "Sfogliatella",     "description": "Baked fresh daily",                "display_order": 20, "available": true, "is_feature": true, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 350 }] },
+        { "slug": "nutella-cannoli",  "name": "Nutella Cannoli",  "description": "Ricotta and Nutella",              "display_order": 30, "available": true, "is_feature": true, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 350, "note": "15 cm" }] },
+        { "slug": "pistachio-cannoli","name": "Pistachio Cannoli","description": "Ricotta and pistachio cream",     "display_order": 40, "available": true, "is_feature": true, "sizes": [{ "size_label": null, "display_order": 10, "price_pence": 395, "note": "15 cm" }] }
+      ]
+    }
+  ],
+
+  "settings": {
+    "tagline": "Freshly baked daily · premium ingredients",
+    "address_line1": null,
+    "address_line2": null,
+    "postcode": "NE30",
+    "phone": null,
+    "email": null,
+    "opening_hours": null,
+    "google_maps_url": null
+  }
+}

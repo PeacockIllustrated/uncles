@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, initial-scale=1">
+<title>Uncle's — Screen 1 — Signature Panuozzi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================
+     UNCLE'S — SCREEN 1 — SIGNATURE PANUOZZI
+     Production Master · 1920×1080 · Mallard & Antique Gold
+     ===================================================== */
+
+  :root {
+    --green-deep:  #0E1914;
+    --green-base:  #13241D;
+    --green-mid:   #1C2F26;
+    --gold:        #C7A06A;
+    --gold-bright: #D9B681;
+    --gold-soft:   #A88654;
+    --gold-faint:  rgba(199, 160, 106, 0.22);
+    --gold-line:   rgba(199, 160, 106, 0.45);
+    --cream:       #E8DDC7;
+    --cream-soft:  rgba(232, 221, 199, 0.78);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    background: var(--green-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    position: relative;
+    background:
+      radial-gradient(ellipse 60% 50% at 25% 18%, rgba(45, 70, 56, 0.7) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 60% at 78% 85%, rgba(8, 16, 12, 0.85) 0%, transparent 55%),
+      linear-gradient(135deg, var(--green-base) 0%, var(--green-deep) 100%);
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.63  0 0 0 0 0.42  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 50%, rgba(8, 14, 11, 0.4) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ===== FRAMES ===== */
+  .frame-outer {
+    position: absolute;
+    inset: 30px;
+    border: 1px solid var(--gold-line);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .frame-inner {
+    position: absolute;
+    inset: 42px;
+    border: 1px solid var(--gold-faint);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    background:
+      radial-gradient(circle, var(--green-base) 30%, var(--green-deep) 100%);
+    z-index: 4;
+  }
+  .corner.tl { left: 22px; top: 22px; }
+  .corner.tr { right: 22px; top: 22px; }
+  .corner.bl { left: 22px; bottom: 22px; }
+  .corner.br { right: 22px; bottom: 22px; }
+
+  .corner::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: var(--gold);
+    transform: scale(0.4);
+    opacity: 0.5;
+  }
+
+  /* ===== STAGE ===== */
+  .stage {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    padding: 56px 130px 90px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    z-index: 5;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 96px;
+    letter-spacing: 0.045em;
+    color: var(--gold);
+    line-height: 0.95;
+    text-shadow:
+      0 2px 0 rgba(168, 134, 84, 0.3),
+      0 4px 32px rgba(199, 160, 106, 0.22),
+      0 0 80px rgba(199, 160, 106, 0.08);
+    margin-bottom: 12px;
+  }
+
+  .sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    margin-bottom: 8px;
+  }
+
+  .sub-line {
+    height: 1px;
+    width: 220px;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  }
+
+  .sub-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .sub-diamond {
+    color: var(--gold);
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  /* ===== MAIN BODY ===== */
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== SECTION TITLE BAND ===== */
+  .section-band {
+    position: relative;
+    margin: 22px auto 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    padding: 0 80px;
+  }
+
+  .section-line-l,
+  .section-line-r {
+    flex: 1;
+    height: 1px;
+    max-width: 360px;
+  }
+  .section-line-l { background: linear-gradient(90deg, transparent, var(--gold-faint) 30%, var(--gold) 100%); }
+  .section-line-r { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-faint) 70%, transparent); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 36px;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .section-band-diamond {
+    color: var(--gold);
+    font-size: 14px;
+    transform: rotate(45deg);
+    display: inline-block;
+  }
+
+  .tagline {
+    text-align: center;
+    margin-top: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 21px;
+    letter-spacing: 0.04em;
+    color: var(--cream-soft);
+    opacity: 0.85;
+  }
+
+  /* ===== MENU GRID ===== */
+  .menu {
+    margin-top: 22px;
+    padding: 0 30px;
+  }
+
+  /* Column headers (CLASSICO / GRANDE) */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 1fr 200px 200px;
+    align-items: end;
+    padding: 0 14px 10px;
+    border-bottom: 1px solid var(--gold-faint);
+    margin-bottom: 4px;
+  }
+
+  .col-headers .col-size {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    text-align: center;
+  }
+
+  /* Menu rows */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 200px 200px;
+    align-items: center;
+    padding: 14px 14px;
+    border-bottom: 1px solid var(--gold-faint);
+    position: relative;
+    min-height: 86px;
+  }
+
+  .row:last-of-type { border-bottom: none; }
+
+  .row-marker {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 38px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 6px;
+    padding-left: 24px;
+  }
+
+  .item-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 0.005em;
+    color: var(--cream);
+    line-height: 1.35;
+    opacity: 0.9;
+    padding-left: 24px;
+    max-width: 920px;
+  }
+
+  .price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 36px;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+    text-align: center;
+    line-height: 1;
+  }
+
+  /* ===== DOLCE FEATURE BAND — shared label, two flavour rows ===== */
+  .dolce {
+    margin: 16px 30px 0;
+    border: 1px solid var(--gold);
+    padding: 14px 36px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+    gap: 32px;
+    position: relative;
+    background:
+      linear-gradient(135deg,
+        rgba(199, 160, 106, 0.06) 0%,
+        rgba(199, 160, 106, 0.02) 60%,
+        transparent 100%);
+    box-shadow: inset 0 0 60px rgba(14, 25, 20, 0.3);
+  }
+
+  .dolce::before,
+  .dolce::after {
+    content: '';
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    border: 1px solid var(--gold);
+    background: var(--green-base);
+    transform: translateY(-50%) rotate(45deg);
+    top: 50%;
+  }
+  .dolce::before { left: -6px; }
+  .dolce::after  { right: -6px; }
+
+  .dolce-corner-fill {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: translateY(-50%) rotate(45deg);
+    top: 50%;
+    opacity: 0.6;
+  }
+  .dolce-corner-fill.l { left: -3px; }
+  .dolce-corner-fill.r { right: -3px; }
+
+  .dolce-stack {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--gold-faint);
+    padding-right: 32px;
+    height: 100%;
+    justify-content: center;
+  }
+
+  .dolce-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 6px;
+    white-space: nowrap;
+  }
+
+  .dolce-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 38px;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  /* Two flavour rows stacked on the right */
+  .dolce-options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dolce-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 140px;
+    align-items: center;
+    gap: 24px;
+    padding: 4px 0;
+  }
+
+  .dolce-row + .dolce-row {
+    border-top: 1px solid var(--gold-faint);
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+
+  .dolce-flavour {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .dolce-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cream);
+    line-height: 1.35;
+    opacity: 0.9;
+  }
+
+  .dolce-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Frames + corner ornaments -->
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <span class="corner tl"></span>
+  <span class="corner tr"></span>
+  <span class="corner bl"></span>
+  <span class="corner br"></span>
+
+  <div class="stage">
+
+    <!-- ===================================================
+         HEADER — Brand mark + sub
+         =================================================== -->
+    <header class="header">
+      <h1 class="brand">UNCLE'S</h1>
+      <div class="sub">
+        <span class="sub-line"></span>
+        <span class="sub-diamond">◆</span>
+        <span class="sub-text">Panuozzo &amp; Sandwiches</span>
+        <span class="sub-diamond">◆</span>
+        <span class="sub-line"></span>
+      </div>
+    </header>
+
+    <!-- ===================================================
+         BODY — Section title + Panuozzi list + Dolce
+         =================================================== -->
+    <main>
+
+      <!-- Section title — line + diamond + title + diamond + line -->
+      <div class="section-band">
+        <span class="section-line-l"></span>
+        <span class="section-band-diamond">◆</span>
+        <span class="section-title">Signature Panuozzi</span>
+        <span class="section-band-diamond">◆</span>
+        <span class="section-line-r"></span>
+      </div>
+
+      <p class="tagline">Freshly baked daily &middot; premium ingredients</p>
+
+      <!-- Menu list -->
+      <div class="menu">
+
+        <!-- Classico / Grande column headers -->
+        <div class="col-headers">
+          <div></div>
+          <div class="col-size">Classico</div>
+          <div class="col-size">Grande</div>
+        </div>
+
+        <!-- ROMA -->
+        <div class="row">
+          <span class="row-marker"></span>
+          <div>
+            <div class="item-name">Roma</div>
+            <div class="item-desc">Prosciutto crudo, stracciatella, fresh tomato, rocket, balsamic glaze</div>
+          </div>
+          <div class="price">£8.95</div>
+          <div class="price">£11.45</div>
+        </div>
+
+        <!-- MILANO -->
+        <div class="row">
+          <span class="row-marker"></span>
+          <div>
+            <div class="item-name">Milano</div>
+            <div class="item-desc">Mortadella al pistachio, stracciatella, pistachio cream, crushed pistachios, rocket</div>
+          </div>
+          <div class="price">£8.95</div>
+          <div class="price">£11.45</div>
+        </div>
+
+        <!-- PALERMO -->
+        <div class="row">
+          <span class="row-marker"></span>
+          <div>
+            <div class="item-name">Palermo</div>
+            <div class="item-desc">Spicy salami, fior di latte mozzarella, pesto, sun-dried tomatoes, roasted peppers, hot honey</div>
+          </div>
+          <div class="price">£8.95</div>
+          <div class="price">£11.45</div>
+        </div>
+
+        <!-- RIMINI -->
+        <div class="row">
+          <span class="row-marker"></span>
+          <div>
+            <div class="item-name">Rimini</div>
+            <div class="item-desc">Roasted turkey, mozzarella, fresh tomato, pesto, caramelised onions, rocket</div>
+          </div>
+          <div class="price">£8.50</div>
+          <div class="price">£11.50</div>
+        </div>
+
+        <!-- VENEZIA -->
+        <div class="row">
+          <span class="row-marker"></span>
+          <div>
+            <div class="item-name">Venezia</div>
+            <div class="item-desc">Grilled Mediterranean vegetables, stracciatella, pesto, caramelised onions, roasted peppers, balsamic glaze</div>
+          </div>
+          <div class="price">£7.95</div>
+          <div class="price">£9.95</div>
+        </div>
+      </div>
+
+      <!-- DOLCE — feature band with two flavour sub-rows -->
+      <div class="dolce">
+        <span class="dolce-corner-fill l"></span>
+        <span class="dolce-corner-fill r"></span>
+        <div class="dolce-stack">
+          <div class="dolce-eyebrow">Sweet Panuozzo</div>
+          <div class="dolce-name">Dolce</div>
+        </div>
+        <div class="dolce-options">
+          <div class="dolce-row">
+            <div class="dolce-flavour">Nutella</div>
+            <div class="dolce-desc">Nutella</div>
+            <div class="dolce-price">£5.95</div>
+          </div>
+          <div class="dolce-row">
+            <div class="dolce-flavour">Pistachio</div>
+            <div class="dolce-desc">Pistachio cream</div>
+            <div class="dolce-price">£5.95</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
